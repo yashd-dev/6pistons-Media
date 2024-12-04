@@ -9,8 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#0F1115",
+        foreground: "#F5F5F5",
+        BrandRed: "#ED203D",
+      },
+      fontFamily: {
+        hanken: "'Hanken Grotesk', sans-serif",
+        bigShoulders: "'Big Shoulders Display', sans-serif",
       },
     },
   },
