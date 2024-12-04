@@ -60,7 +60,7 @@ export default function Home() {
           transitionDelay: "5s",
         }}
       >
-        Coming Soon!
+        Coming Soon
       </p>
     </div>
     </VideoOverlay>
