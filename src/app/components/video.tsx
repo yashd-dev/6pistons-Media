@@ -58,15 +58,13 @@ export default function VideoOverlay({
 
   const getBrightness = () => {
     if (!isInView) return 0;
-    return isMobile ? 0.4 : 0.1;
+    return isMobile ? 0.4 : 0.3;
   };
 
   return (
-    <div ref={ref} className="h-screen h-[100svh] relative">
+    <div ref={ref} className="h-screen h-[100svh]  max-h-[1080px] relative">
       <div
-        className={`${
-          isFixed ? "fixed" : "absolute"
-        } top-0 left-0 w-full h-screen z-10 bg-background`}
+        className={`${"fixed"} top-0 left-0 w-full h-screen z-10 bg-background`}
       >
         <video
           ref={videoRef}
