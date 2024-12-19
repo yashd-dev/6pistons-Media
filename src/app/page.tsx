@@ -30,21 +30,33 @@ export default async function Home() {
       <HomeClient />
       <BlogSection title="Latest Car Articles" posts={carPosts} />
       <BlogSection title="Latest Bike Articles" posts={bikePosts} />
+      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:p-28 text-foreground mx-auto gap-10">
+        <div className="h-1 w-full bg-BrandRed/10"></div>
+        <h1
+          className="md:text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between"
+          id="contact"
+        >
+          Contact
+        </h1>
+        <p className="text-xl md:text-4xl font-medium text-foreground uppercase max-w-prose">
+          You can reach out to us anytime at{" "}
+          <a
+            href="mailto:contact@6pistons.com"
+            className="text-BrandRed hover:underline"
+          >
+            contact@6pistons.com
+          </a>
+        </p>
+      </section>
     </>
   );
 }
 
 function BlogSection({ title, posts }: { title: string; posts: any[] }) {
   return (
-    <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 md:p-28 text-foreground mx-auto gap-10">
-      <h1 className="text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between">
+    <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:px-28 text-foreground mx-auto gap-10">
+      <h1 className="md:text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between">
         {title}{" "}
-        <a
-          className="text-sm text-foreground underline pl-10 hover:text-BrandRed/70"
-          href="/blog"
-        >
-          Read More
-        </a>
       </h1>
       <div className="h-1 w-full bg-BrandRed/10"></div>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

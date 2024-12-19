@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Big_Shoulders_Display, Hanken_Grotesk } from "next/font/google";
+import Navbar from "./components/navbar";
 import "./globals.css";
 import Script from "next/script";
 
@@ -18,9 +19,9 @@ const bigShouldersDisplay = Big_Shoulders_Display({
 });
 
 export const metadata: Metadata = {
-  title: "91 Turbo",
+  title: "6 Pistons",
   description: "Motor Reviews Done Right",
-  metadataBase: new URL("https://91turbo.com"),
+  metadataBase: new URL("https://6pistons.com"),
 };
 
 export default function RootLayout({
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body
         className={`${hankenGrotesk.style} ${bigShouldersDisplay.variable} antialiased h-full w-full`}
       >
+        <Navbar></Navbar>
         {children}
       </body>
     </html>

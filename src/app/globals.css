@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-title {
+  font-size: clamp(3rem, 8vw, 8rem);
+}
+/* Heading 2 */
+.text-title-2 {
+  font-size: clamp(2.5rem, 6vw, 6.5rem);
+}
+
+/* Heading 3 */
+.text-title-3 {
+  font-size: clamp(2rem, 5vw, 6rem);
+}
+
+/* Heading 4 */
+.text-title-4 {
+  font-size: clamp(1.5rem, 4vw, 5.5rem);
+}
+
+/* Paragraph Text */
+.text-paragraph {
+  font-size: clamp(1.2rem, 1.2vw, 4rem);
+}
+
+.text-body {
+  font-size: clamp(1.5rem, 1vw, 6rem);
+}
 
 body {
   background-image: url("/noise.png");
