@@ -18,30 +18,14 @@ const POST_QUERY = `
   }
 `;
 
-// GROQ query to fetch featured blog posts
-const FEATURED_POSTS_QUERY = `
-  *[_type == "post" && featured == true][0...3] {
-    _id,
-    title,
-    slug,
-    mainImage
-  }
-`;
 
 export default async function BlogPost({ params }: { params: any }) {
-  function getBaseUrl() {
-    if (process.env.NODE_ENV === "development") {
-      return "http://localhost:3000/article";
-    }
-    return "https://91turbos.com/article";
-  }
-
   function getFullUrl(slug: string) {
-    return `${getBaseUrl()}/${slug}`;
+    return `https://6pistons.com/article/${slug}`;
   }
   const { slug } = await params;
   const post = await client.fetch(POST_QUERY, { slug });
-  const featuredPosts = await client.fetch(FEATURED_POSTS_QUERY);
+  // const featuredPosts = await client.fetch(FEATURED_POSTS_QUERY);
 
   if (!post) {
     return notFound();

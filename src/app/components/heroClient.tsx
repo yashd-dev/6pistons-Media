@@ -3,15 +3,13 @@
 import { useInView, useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
 import VideoOverlay from "./video";
-import Link from "next/link";
-import Image from "next/image";
+
 
 export function HomeClient() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   const ref2 = useRef<HTMLDivElement>(null);
-  const isInView2 = useInView(ref2, { once: true });
 
   const { scrollYProgress } = useScroll({
     target: ref2,
@@ -74,8 +72,8 @@ export function HomeClient() {
           6Pistons → Your ultimate destination for expert automotive insights
           and reviews. From cars to two-wheelers, every review empowers buyers,
           enthusiasts, and industry leaders ● We focus on performance, design,
-          and tech to deliver actionable advice. At 6Pistons, it's more than
-          vehicles—it's about innovation, experiences, and the future of
+          and tech to deliver actionable advice. At 6Pistons, it&apos;s more than and 
+          vehicles—it&apos;s about innovation, experiences, and the future of
           mobility.
         </p>
       </section>

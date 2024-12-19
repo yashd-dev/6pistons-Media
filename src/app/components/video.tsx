@@ -28,21 +28,10 @@ export default function VideoOverlay({
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [isFixed, setIsFixed] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (ref.current) {
-        const viewportHeight = window.innerHeight;
-        const scrollPosition = window.scrollY;
-
-        if (scrollPosition >= viewportHeight) {
-          setIsFixed(true);
-        } else {
-          setIsFixed(false);
-        }
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
