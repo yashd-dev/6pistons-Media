@@ -3,7 +3,6 @@ import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 // GROQ query to fetch a single blog post by slug
 const POST_QUERY = `
@@ -29,11 +28,7 @@ const FEATURED_POSTS_QUERY = `
   }
 `;
 
-export default async function BlogPost({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function BlogPost({ params }: { params: any }) {
   function getBaseUrl() {
     if (process.env.NODE_ENV === "development") {
       return "http://localhost:3000/article";
