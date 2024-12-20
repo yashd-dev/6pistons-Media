@@ -6,7 +6,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 // GROQ query to fetch the latest 3 blog posts for a specific category
 const LATEST_POSTS_BY_CATEGORY_QUERY = `
-  *[_type == "post" && $category in categories[]->title] | order(publishedAt desc)[0...3] {
+  *[_type == "post" && $category in categories[]->title] | order(publishedAt desc){
     _id,
     title,
     slug,
@@ -21,9 +21,21 @@ export default async function Home() {
   const carPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "cars",
   });
+  const carsPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+    category: "Car News",
+  });
+  const genPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+    category: "General News",
+  });
+  carPosts.push(...genPosts);
+  carPosts.push(...carsPosts);
   const bikePosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "Bikes",
   });
+  const bikesPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+    category: "Bikes News",
+  });
+  bikePosts.push(...bikesPosts);
 
   return (
     <>
