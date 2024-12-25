@@ -1,12 +1,11 @@
 import { HomeClient } from "@/app/components/heroClient";
-import Image from "next/image";
-import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
+import BlogSection from "./components/blogSection";
 
 // GROQ query to fetch the latest 3 blog posts for a specific category
 const LATEST_POSTS_BY_CATEGORY_QUERY = `
-  *[_type == "post" && $category in categories[]->title] | order(publishedAt desc){
+  *[_type == "post" && $category in categories[]->title] 
+  | order(publishedAt desc)[0...3]{
     _id,
     title,
     slug,
@@ -18,30 +17,51 @@ const LATEST_POSTS_BY_CATEGORY_QUERY = `
 `;
 
 export default async function Home() {
-  const carPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+  let carPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "cars",
   });
-  const carsPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+  const carsPost = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "Car News",
   });
   const genPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "General News",
   });
   carPosts.push(...genPosts);
-  carPosts.push(...carsPosts);
-  const bikePosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
+  carPosts.push(...carsPost);
+  carPosts = carPosts.reduce((acc: any, item: any) => {
+    if (!acc.some((el: any) => el._id === item._id)) {
+      acc.push(item);
+    }
+    return acc;
+  }, []);
+  carPosts.sort(
+    (a: any, b: any) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+
+  let bikePost = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "Bikes",
   });
   const bikesPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
     category: "Bikes News",
   });
-  bikePosts.push(...bikesPosts);
+  bikePost.push(...bikesPosts);
+  bikePost = bikePost.reduce((acc: any, item: any) => {
+    if (!acc.some((el: any) => el._id === item._id)) {
+      acc.push(item);
+    }
+    return acc;
+  }, []);
+  bikePost.sort(
+    (a: any, b: any) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
 
   return (
     <>
       <HomeClient />
       <BlogSection title="Latest Car Articles" posts={carPosts} />
-      <BlogSection title="Latest Bike Articles" posts={bikePosts} />
+      <BlogSection title="Latest Bike Articles" posts={bikePost} />
       <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:p-28 text-foreground mx-auto gap-10">
         <div className="h-1 w-full bg-BrandRed/10"></div>
         <h1
@@ -50,7 +70,7 @@ export default async function Home() {
         >
           Contact
         </h1>
-        <p className="text-xl md:text-4xl font-medium text-foreground uppercase max-w-prose">
+        <p className="text-xl md:text-3xl font-medium text-foreground max-w-prose">
           You can reach out to us anytime at{" "}
           <a
             href="mailto:contact@6pistons.com"
@@ -61,76 +81,5 @@ export default async function Home() {
         </p>
       </section>
     </>
-  );
-}
-
-function BlogSection({ title, posts }: { title: string; posts: any[] }) {
-  return (
-    <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:px-28 text-foreground mx-auto gap-10">
-      <h1 className="md:text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between">
-        {title}{" "}
-      </h1>
-      <div className="h-1 w-full bg-BrandRed/10"></div>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <BlogCard
-            key={post._id}
-            href={`/article/${post.slug.current}`}
-            imageSrc={urlFor(post.mainImage).width(800).height(450).url()}
-            date={new Date(post.publishedAt).toLocaleDateString()}
-            readTime={`${post.estimatedReadingTime} min read`}
-            title={post.title}
-            description={post.description}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-interface BlogCardProps {
-  href: string;
-  imageSrc: string;
-  date: string;
-  readTime: string;
-  title: string;
-  description: string;
-}
-
-function BlogCard({
-  href,
-  imageSrc,
-  date,
-  readTime,
-  title,
-  description,
-}: BlogCardProps) {
-  return (
-    <Link
-      href={href}
-      className="group block h-full overflow-hidden rounded-xl border border-foreground/20 hover:border-BrandRed/20 bg-card transition-all hover:bg-accent hover:shadow-md"
-    >
-      <div className="aspect-[16/9] relative overflow-hidden">
-        <Image
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          quality={90}
-          src={imageSrc}
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          alt={title}
-        />
-      </div>
-      <div className="p-6">
-        <div className="flex items-center space-x-2 text-sm text-foreground/70 mb-2">
-          <span>{date}</span>
-          <span>•</span>
-          <span>{readTime}</span>
-        </div>
-        <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
-          {title}
-        </h3>
-        <p className="text-foreground/70">{description}</p>
-      </div>
-    </Link>
   );
 }

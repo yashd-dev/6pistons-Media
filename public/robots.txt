@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.6pistons.com
+
+# Sitemaps
+Sitemap: https://www.6pistons.com/sitemap.xml

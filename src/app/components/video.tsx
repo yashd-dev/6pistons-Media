@@ -51,7 +51,7 @@ export default function VideoOverlay({
   };
 
   return (
-    <div ref={ref} className="h-screen h-[100svh]  max-h-[1080px] relative">
+    <div ref={ref} className="h-fit relative">
       <div
         className={`${"fixed"} top-0 left-0 w-full h-screen z-10 bg-background`}
       >
