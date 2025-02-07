@@ -11,6 +11,7 @@ const POST_QUERY = `
     _id,
     title,
     description,
+    keywords,
     slug,
     mainImage,
     publishedAt,
@@ -22,10 +23,12 @@ const POST_QUERY = `
 export async function generateMetadata({ params }: { params: any }) {
   const { slug } = await params;
   const post = await client.fetch(POST_QUERY, { slug });
+  console.log(post.keywords);
   return {
     title: post.title || "6Pistons",
     description: post.description || "Motor Reviews Done Right",
     metadataBase: new URL(`https://6pistons.com/article/${post.slug.current}`),
+    keywords: post.keywords,
     openGraph: {
       title: post.title || "Product Page",
       description: post.description || "Discover more about this product.",
@@ -35,6 +38,15 @@ export async function generateMetadata({ params }: { params: any }) {
       url: `https://6pistons.com/article/${post.slug.current}`,
       site_name: "6Pistons",
       type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title || "Product Page",
+      description: post.description || "Discover more about this product.",
+      images:
+        urlFor(post.mainImage).width(1200).height(675).url() ||
+        "https://6pistons.com/opengraph-image.png",
+      creator: "@6PistonsMedia",
     },
   };
 }
@@ -50,7 +62,6 @@ export default async function BlogPost({ params }: { params: any }) {
   if (!post) {
     return notFound();
   }
-
   const PortableTextComponents = {
     types: {
       image: ({ value }: { value: any }) => (
@@ -85,7 +96,7 @@ export default async function BlogPost({ params }: { params: any }) {
               />
             </div>
           )}
-          <div className="my-auto mx-auto prose  md:prose-lg prose-red max-w-none  prose-invert prose-headings:text-4xl md:prose-headings:text-5xl prose-headings:mx-auto  prose-headings:font-bigShoulders prose-headings:text-BrandRed  prose-img:rounded-xl prose-img:shadow-2xl  prose-img:min-h-full md:prose-img:w-[60%] prose-img:mx-auto prose-img:object-fill  prose-figure:mx-auto md:text-justify prose-pre:text-left prose-headings:my-5 prose-p:py-2">
+          <div className="my-auto mx-auto prose  md:prose-lg prose-red max-w-none  prose-invert prose-headings:text-4xl md:prose-headings:text-5xl prose-headings:mx-auto  prose-headings:font-bigShoulders prose-headings:text-BrandRed  prose-img:rounded-xl prose-img:shadow-2xl  prose-img:min-h-full prose-img:aspect-[3:4] prose-img:mx-auto prose-img:object-fill  prose-figure:mx-auto md:text-justify prose-pre:text-left prose-headings:my-5 prose-p:py-2">
             <PortableText
               value={post.body}
               components={PortableTextComponents}

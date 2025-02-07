@@ -13,6 +13,21 @@ const nextConfig: NextConfig = {
       { hostname: "images.unsplash.com" },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/article",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/bookings",
+        destination: "https://calendar.app.google/39dyCijPJ9tMto1E9",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

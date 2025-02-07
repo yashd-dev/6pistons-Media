@@ -47,12 +47,6 @@ export default function Navbar() {
           >
             Contact
           </Link>
-          <Link
-            href="/article"
-            className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300"
-          >
-            Articles
-          </Link>
         </div>
       </nav>
     </div>

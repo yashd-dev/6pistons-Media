@@ -21,9 +21,70 @@ const bigShouldersDisplay = Big_Shoulders_Display({
 });
 
 export const metadata: Metadata = {
-  title: "6 Pistons",
+  title: "6Pistons",
   description: "Motor Reviews Done Right",
   metadataBase: new URL("https://6pistons.com"),
+  applicationName: "6Pistons",
+  authors: [{ name: "6pistons Media", url: "https://6pistons.com" }],
+  keywords: ["motor reviews", "car reviews", "automotive", "6Pistons"],
+  openGraph: {
+    title: "6Pistons",
+    description: "Motor Reviews Done Right",
+    images: "https://6pistons.com/opengraph-image.png",
+    url: `https://6pistons.com/`,
+    type: "website",
+    siteName: "6Pistons",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "6Pistons",
+    description: "Motor Reviews Done Right",
+    images: "https://6pistons.com/opengraph-image.png",
+    creator: "@6PistonsMedia",
+    site: "@6PistonsMedia",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "6Pistons",
+  alternateName: "6Pistons Media",
+  url: "https://6pistons.com",
+  description: "Motor Reviews Done Right",
+  publisher: {
+    "@type": "Organization",
+    name: "6Pistons Media",
+    url: "https://6pistons.com",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://6pistons.com/logo.png",
+      width: "112",
+      height: "112",
+    },
+    sameAs: [
+      "https://twitter.com/6PistonsMedia",
+      // Add other social media profile URLs here
+    ],
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://6pistons.com/search?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -37,6 +98,10 @@ export default function RootLayout({
         defer
         src="https://cloud.umami.is/script.js"
         data-website-id="78106722-fc0d-4a3d-b559-0bf289f72e23"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <body
         className={`${hankenGrotesk.style} ${bigShouldersDisplay.variable} antialiased h-full w-full relative`}

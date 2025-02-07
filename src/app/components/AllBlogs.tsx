@@ -7,6 +7,8 @@ import { urlFor } from "@/sanity/lib/image";
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { HomeClient } from "./heroClient";
 
 export default function AllArticles({
   initialPosts,
@@ -30,11 +32,12 @@ export default function AllArticles({
 
   const handleCategoryChange = async (category: string) => {
     const { posts: newPosts } = await fetchPosts(1, 10, category || null);
+    if (newPosts.length === 0) return redirect("/");
     setPosts(newPosts.slice(1));
     setFeaturedPost(newPosts[0]);
     setCurrentPage(1);
     setCurrentCategory(category || null);
-    const newUrl = `/article?category=${category}`;
+    const newUrl = `/?category=${category}`;
     window.history.pushState({ category: category }, "", newUrl);
     window.scrollTo(0, 0);
   };
@@ -42,10 +45,11 @@ export default function AllArticles({
   const handlePageChange = async (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     const { posts: newPosts } = await fetchPosts(newPage, 10, currentCategory);
+    if (newPosts.length === 0) return redirect("/");
     setPosts(newPosts.slice(1));
     setFeaturedPost(newPosts[0]);
     setCurrentPage(newPage);
-    const newUrl = `/article?page=${newPage}${currentCategory ? `&category=${currentCategory}` : ""}`;
+    const newUrl = `/?page=${newPage}${currentCategory ? `&category=${currentCategory}` : ""}`;
     window.history.pushState(
       { page: newPage, category: currentCategory },
       "",
@@ -59,10 +63,13 @@ export default function AllArticles({
   const isLineInView = useInView(lineRef, { once: true });
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full max-w-[90rem] mx-auto px-4 py-8">
+      {currentPage === 1 && (!currentCategory || currentCategory === "all") && (
+        <HomeClient />
+      )}
       <TitleCard featuredPost={featuredPost} />
 
-      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:px-28 text-foreground mx-auto gap-10">
+      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10  text-foreground mx-auto gap-10">
         <div className="flex flex-row w-full justify-between items-center ">
           <motion.h1
             ref={titleRef}
@@ -152,9 +159,9 @@ function TitleCard({ featuredPost }: { featuredPost: any }) {
   return (
     <Link
       href={`/article/${featuredPost.slug.current}`}
-      className="w-[80%]  transition-all duration-300 ease-in-out rounded-2xl group "
+      className="w-full transition-all duration-300 ease-in-out rounded-2xl group "
     >
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8 py-12 px-4 md:px-8">
+      <div className="max-w-[90rem] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 py-12 px-4 md:px-0 pt-[10vh]">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start">
           <Image
             src={urlFor(featuredPost.mainImage).width(800).height(600).url()}
@@ -164,7 +171,7 @@ function TitleCard({ featuredPost }: { featuredPost: any }) {
             className="rounded-2xl shadow-lg object-cover aspect-video transition-transform duration-300 group-hover:scale-105"
           />
         </div>
-        <div className="w-full md:w-1/2 text-center md:text-left space-y-4">
+        <div className="w-full md:w-1/2 md:text-left space-y-4">
           <div className="flex items-center space-x-2 text-sm text-foreground/70 mb-2">
             <span>
               {new Date(featuredPost.publishedAt).toLocaleDateString()}

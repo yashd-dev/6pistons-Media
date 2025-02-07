@@ -1,68 +1,30 @@
-import { HomeClient } from "@/app/components/heroClient";
-import { client } from "@/sanity/lib/client";
-import BlogSection from "./components/blogSection";
+import AllBlogs from "./components/AllBlogs";
+import { fetchCategories, fetchPosts } from "@/app/actions/fetchPosts";
+import { redirect } from "next/navigation";
+export const dynamic = "force-dynamic";
 
 // GROQ query to fetch the latest 3 blog posts for a specific category
-const LATEST_POSTS_BY_CATEGORY_QUERY = `
-  *[_type == "post" && $category in categories[]->title] 
-  | order(publishedAt desc)[0...3]{
-    _id,
-    title,
-    slug,
-    mainImage,
-    publishedAt,
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
-    description,
-  }
-`;
 
-export default async function Home() {
-  let carPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
-    category: "cars",
-  });
-  const carsPost = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
-    category: "Car News",
-  });
-  const genPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
-    category: "General News",
-  });
-  carPosts.push(...genPosts);
-  carPosts.push(...carsPost);
-  carPosts = carPosts.reduce((acc: any, item: any) => {
-    if (!acc.some((el: any) => el._id === item._id)) {
-      acc.push(item);
-    }
-    return acc;
-  }, []);
-  carPosts.sort(
-    (a: any, b: any) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+export default async function Home({ searchParams }: { searchParams: any }) {
+  const param = await searchParams;
+  const page = typeof param.page === "string" ? Number(param.page) : 1;
+  const category: any =
+    typeof param.category === "string" ? param.category : null;
 
-  let bikePost = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
-    category: "Bikes",
-  });
-  const bikesPosts = await client.fetch(LATEST_POSTS_BY_CATEGORY_QUERY, {
-    category: "Bikes News",
-  });
-  bikePost.push(...bikesPosts);
-  bikePost = bikePost.reduce((acc: any, item: any) => {
-    if (!acc.some((el: any) => el._id === item._id)) {
-      acc.push(item);
-    }
-    return acc;
-  }, []);
-  bikePost.sort(
-    (a: any, b: any) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  const { posts, totalCount } = await fetchPosts(page, 10, category);
+  if (posts.length === 0) return redirect("/");
+  const categories = await fetchCategories();
 
   return (
     <>
-      <HomeClient />
-      <BlogSection title="Latest Car Articles" posts={carPosts} />
-      <BlogSection title="Latest Bike Articles" posts={bikePost} />
-      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 md:p-28 text-foreground mx-auto gap-10">
+      <AllBlogs
+        initialPosts={posts}
+        totalCount={totalCount} // Subtract 1 from total count as we're featuring one post
+        categories={categories}
+        initialPage={page}
+        initialCategory={category}
+      />
+      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10 text-foreground mx-auto gap-10 max-w-[90rem]">
         <div className="h-1 w-full bg-BrandRed/10"></div>
         <h1
           className="md:text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between"
