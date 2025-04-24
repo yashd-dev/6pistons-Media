@@ -1,11 +1,11 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import type { SanityDocument } from "@sanity/client";
 import { client } from "@/sanity/lib/client";
 
 async function getData() {
   const query = `*[_type == "post"] {
     "currentSlug": slug.current,
-      "updated": _updatedAt
+    "lastModified": _updatedAt
   }`;
   const data = await client.fetch(query);
   return data;
@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "daily",
     priority: 0.9,
   }));
-  console.log(posts);
+
   return [
     {
       url: "https://www.6pistons.com",
@@ -36,3 +36,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...posts,
   ];
 }
+export const revalidate = 3600;
