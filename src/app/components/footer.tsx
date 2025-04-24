@@ -3,6 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 
+
 export default function Footer() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });

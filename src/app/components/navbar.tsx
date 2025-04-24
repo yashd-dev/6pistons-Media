@@ -1,24 +1,25 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import Link from "next/link"
+import Image from "next/image"
+import { useState, useEffect } from "react"
+import Search from "./search"
 
 export default function Navbar() {
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-      setPrevScrollPos(currentScrollPos);
-    };
+      const currentScrollPos = window.pageYOffset
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10)
+      setPrevScrollPos(currentScrollPos)
+    }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll)
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollPos]);
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [prevScrollPos])
 
   return (
     <div
@@ -26,29 +27,18 @@ export default function Navbar() {
     >
       <nav className="flex items-center justify-between px-5 md:px-10 py-5 text-foreground bg-black rounded-xl bg-opacity-30 backdrop-blur-md gap-8 mt-10 ">
         <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.svg"
-            alt="6Piston Logo"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          <Image src="/logo.svg" alt="6Piston Logo" width={40} height={40} className="rounded-full" />
         </Link>
         <div className="flex items-center gap-8">
-          <Link
-            href="/#about"
-            className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300"
-          >
+          <Link href="/#about" className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300">
             About
           </Link>
-          <Link
-            href="/#contact"
-            className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300"
-          >
+          <Link href="/#contact" className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300">
             Contact
           </Link>
+          <Search />
         </div>
       </nav>
     </div>
-  );
+  )
 }
