@@ -27,10 +27,14 @@ async function getAuthor(slug: string) {
 }
 
 export default async function AuthorPage({ params }: { params: any }) {
-  const author = await getAuthor(params.slug);
-
+  const slugie = await params.slug;
+  const author = await getAuthor(slugie);
+  let authorImage = urlFor(author.image).width(192).height(192).url();
   if (!author) {
     return <div>Author not found</div>;
+  }
+  if (!authorImage) {
+    authorImage = "/logo.svg";
   }
 
   return (
@@ -38,7 +42,7 @@ export default async function AuthorPage({ params }: { params: any }) {
       <div className="flex flex-col md:flex-row items-center justify-center w-full h-full relative z-20 px-4 py-10 md:px-28 text-foreground mx-auto gap-10">
         <div className="w-48 h-48 relative rounded-full overflow-hidden">
           <Image
-            src={urlFor(author.image).width(192).height(192).url()}
+            src={authorImage}
             alt={author.name}
             fill
             className="object-cover"
@@ -48,7 +52,7 @@ export default async function AuthorPage({ params }: { params: any }) {
           <h1 className="text-3xl font-bold mb-4 font-bigShoulders text-red-500">
             {author.name}
           </h1>
-          <div className="prose dark:prose-invert max-w-none">
+          <div className="prose dark:prose-invert max-w-xl">
             <PortableText value={author.bio} />
           </div>
         </div>

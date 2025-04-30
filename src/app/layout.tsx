@@ -102,6 +102,11 @@ export default function RootLayout({
         src="https://cloud.umami.is/script.js"
         data-website-id="78106722-fc0d-4a3d-b559-0bf289f72e23"
       />
+      <Script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="a304f0ba-9013-4b81-a19a-b0ed693527e3"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
