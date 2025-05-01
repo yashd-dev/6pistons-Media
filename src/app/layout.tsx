@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   description: "Motor Reviews Done Right",
   metadataBase: new URL("https://6pistons.com"),
   applicationName: "6Pistons",
+  alternates: {
+    canonical: "https://www.6pistons.com",
+  },
   authors: [{ name: "6pistons Media", url: "https://6pistons.com" }],
   keywords: ["motor reviews", "car reviews", "automotive", "6Pistons"],
   openGraph: {
