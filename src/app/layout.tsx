@@ -111,6 +111,7 @@ export default function RootLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
       <body
         className={`${hankenGrotesk.style} ${bigShouldersDisplay.variable} antialiased h-full w-full relative`}
       >
@@ -120,6 +121,23 @@ export default function RootLayout({
         <section className="relative z-20">{children}</section>
         <Footer></Footer>
       </body>
+      <script
+        src="https://analytics.ahrefs.com/analytics.js"
+        data-key="fiUkAbORwLnOPzSSyUL5FQ"
+        async
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+        var ahrefs_analytics_script = document.createElement('script');
+        ahrefs_analytics_script.async = true; ahrefs_analytics_script.src =
+        'https://analytics.ahrefs.com/analytics.js';
+        ahrefs_analytics_script.setAttribute('data-key',
+        'fiUkAbORwLnOPzSSyUL5FQ');
+        document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+      `,
+        }}
+      />
     </html>
   );
 }
