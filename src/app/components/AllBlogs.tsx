@@ -183,7 +183,8 @@ function TitleCard({ featuredPost }: { featuredPost: any }) {
             {featuredPost.title}
           </h1>
           <p className="text-lg text-gray-300 md:max-w-[60ch] ">
-            {featuredPost.description}
+            {featuredPost.description.split(" ").slice(0, 10).join(" ")}
+            {featuredPost.description.split(" ").length > 10 && " ..."}
           </p>
         </div>
       </div>
@@ -243,7 +244,11 @@ function BlogCard({
           <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
             {title}
           </h3>
-          <p className="text-foreground/70">{description}</p>
+          <p className="text-foreground/70">
+            {" "}
+            {description.split(" ").slice(0, 10).join(" ")}
+            {description.split(" ").length > 10 && " ..."}
+          </p>
         </div>
       </Link>
     </motion.div>

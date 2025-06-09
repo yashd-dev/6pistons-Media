@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     canonical: "https://www.6pistons.com",
   },
   authors: [{ name: "6pistons Media", url: "https://6pistons.com" }],
-  keywords: ["motor reviews", "car reviews", "automotive", "6Pistons"],
+  keywords: ["motor reviews", "car reviews", "automotive", "6Pistons","6 Pistons"],
   openGraph: {
     title: "6Pistons",
     description: "Motor Reviews Done Right",
