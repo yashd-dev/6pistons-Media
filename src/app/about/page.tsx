@@ -84,7 +84,7 @@ export default function AboutPage() {
           <p>
             We specialize in detailed vehicle reviews, performance analysis, and automotive journalism. 
             Our content covers everything from luxury sports cars to practical family vehicles, 
-            ensuring there's something for every automotive enthusiast.
+            ensuring there&apos;s something for every automotive enthusiast.
           </p>
           
           <h2>Contact Us</h2>

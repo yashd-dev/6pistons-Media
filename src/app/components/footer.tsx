@@ -2,6 +2,7 @@
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const ref = useRef(null);
@@ -23,10 +24,12 @@ export default function Footer() {
         <div className="gap-4 p-4 md:p-0 md:py-16 py-16 sm:pb-16 md:flex md:justify-between">
           <div className="mb-12 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
-              <img
+              <Image
                 className="h-10 w-auto"
                 src="/logo.svg"
                 alt="6pistons Logo"
+                width={40}
+                height={40}
               />
             </Link>
             <div className="max-w-prose">
