@@ -27,37 +27,62 @@ const POST_QUERY = `
 export async function generateMetadata({ params }: { params: any }) {
   const { slug } = await params;
   const post = await client.fetch(POST_QUERY, { slug });
-  console.log(post.keywords);
+  
+  if (!post) {
+    return {
+      title: "Article Not Found - 6Pistons",
+      description: "The requested article could not be found.",
+    };
+  }
+
   return {
-    title: post.title || "6Pistons",
-    description: post.description || "Motor Reviews Done Right",
-    metadataBase: new URL(`https://6pistons.com/article/${post.slug.current}`),
-    keywords: post.keywords,
+    title: `${post.title} - 6Pistons`,
+    description: post.description || "Professional motor and automotive review by 6Pistons Media.",
+    metadataBase: new URL(`https://www.6pistons.com/article/${post.slug.current}`),
+    keywords: post.keywords || ["motor reviews", "car reviews", "automotive", "6Pistons"],
+    authors: [{ name: post.author?.name || "6Pistons Media" }],
     openGraph: {
-      title: post.title || "Product Page",
-      description: post.description || "Discover more about this product.",
-      images:
-        urlFor(post.mainImage).width(1200).height(675).url() ||
-        "https://6pistons.com/opengraph-image.png",
-      url: `https://6pistons.com/article/${post.slug.current}`,
-      site_name: "6Pistons",
+      title: `${post.title} - 6Pistons`,
+      description: post.description || "Professional motor and automotive review by 6Pistons Media.",
+      images: [
+        {
+          url: urlFor(post.mainImage).width(1200).height(675).url() || "https://www.6pistons.com/opengraph-image.png",
+          width: 1200,
+          height: 675,
+          alt: post.title,
+        }
+      ],
+      url: `https://www.6pistons.com/article/${post.slug.current}`,
+      siteName: "6Pistons",
       type: "article",
+      publishedTime: post.publishedAt,
+      authors: [post.author?.name || "6Pistons Media"],
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title || "Product Page",
-      description: post.description || "Discover more about this product.",
-      images:
-        urlFor(post.mainImage).width(1200).height(675).url() ||
-        "https://6pistons.com/opengraph-image.png",
+      title: `${post.title} - 6Pistons`,
+      description: post.description || "Professional motor and automotive review by 6Pistons Media.",
+      images: [urlFor(post.mainImage).width(1200).height(675).url() || "https://www.6pistons.com/opengraph-image.png"],
       creator: "@6PistonsMedia",
+      site: "@6PistonsMedia",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
 
 export default async function BlogPost({ params }: { params: any }) {
   function getFullUrl(slug: string) {
-    return `https://6pistons.com/article/${slug}`;
+    return `https://www.6pistons.com/article/${slug}`;
   }
   const { slug } = await params;
   const post = await client.fetch(POST_QUERY, { slug });
@@ -68,6 +93,38 @@ export default async function BlogPost({ params }: { params: any }) {
   if (!post) {
     return notFound();
   }
+
+  // Generate structured data for the article
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    image: urlFor(post.mainImage).width(1200).height(675).url(),
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author?.name || "6Pistons Media",
+      url: post.author?.slug ? `https://www.6pistons.com/author/${post.author.slug.current}` : "https://www.6pistons.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "6Pistons Media",
+      url: "https://www.6pistons.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.6pistons.com/logo.svg",
+        width: "112",
+        height: "112",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.6pistons.com/article/${post.slug.current}`,
+    },
+    url: `https://www.6pistons.com/article/${post.slug.current}`,
+  };
 
   const PortableTextComponents = {
     types: {
@@ -85,6 +142,10 @@ export default async function BlogPost({ params }: { params: any }) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }}
+      />
       <div className="flex flex-col lg:flex-row gap-8 pt-[10vh] md:py-12 justify-between relative z-20">
         <article className="lg:w-[70%]">
           <header className="mb-8">

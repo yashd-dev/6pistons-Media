@@ -11,29 +11,47 @@ async function getData() {
   return data;
 }
 
+async function getAuthors() {
+  const query = `*[_type == "author"] {
+    "currentSlug": slug.current,
+    "lastModified": _updatedAt
+  }`;
+  const data = await client.fetch(query);
+  return data;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await getData();
-  const posts: MetadataRoute.Sitemap = data.map((post: SanityDocument) => ({
-    url: `https://6pistons.com/article/${post.currentSlug}`,
+  const [posts, authors] = await Promise.all([getData(), getAuthors()]);
+  
+  const postUrls: MetadataRoute.Sitemap = posts.map((post: SanityDocument) => ({
+    url: `https://www.6pistons.com/article/${post.currentSlug}`,
     lastModified: post.lastModified,
     changeFrequency: "weekly",
-    priority: 0.9,
+    priority: 0.8,
+  }));
+
+  const authorUrls: MetadataRoute.Sitemap = authors.map((author: SanityDocument) => ({
+    url: `https://www.6pistons.com/author/${author.currentSlug}`,
+    lastModified: author.lastModified,
+    changeFrequency: "monthly",
+    priority: 0.6,
   }));
 
   return [
     {
-      url: "https://6pistons.com",
+      url: "https://www.6pistons.com",
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: "https://6pistons.com/article",
+      url: "https://www.6pistons.com/about",
       lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
-    ...posts,
+    ...postUrls,
+    ...authorUrls,
   ];
 }
 export const revalidate = 3600;
