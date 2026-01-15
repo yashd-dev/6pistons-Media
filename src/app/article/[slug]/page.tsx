@@ -27,7 +27,7 @@ const POST_QUERY = `
 export async function generateMetadata({ params }: { params: any }) {
   const { slug } = await params;
   const post = await client.fetch(POST_QUERY, { slug });
-  
+
   if (!post) {
     return {
       title: "Article Not Found - 6Pistons",
@@ -37,20 +37,33 @@ export async function generateMetadata({ params }: { params: any }) {
 
   return {
     title: `${post.title} - 6Pistons`,
-    description: post.description || "Professional motor and automotive review by 6Pistons Media.",
-    metadataBase: new URL(`https://www.6pistons.com/article/${post.slug.current}`),
-    keywords: post.keywords || ["motor reviews", "car reviews", "automotive", "6Pistons"],
+    description:
+      post.description ||
+      "Professional motor and automotive review by 6Pistons Media.",
+    metadataBase: new URL(
+      `https://www.6pistons.com/article/${post.slug.current}`
+    ),
+    keywords: post.keywords || [
+      "motor reviews",
+      "car reviews",
+      "automotive",
+      "6Pistons",
+    ],
     authors: [{ name: post.author?.name || "6Pistons Media" }],
     openGraph: {
       title: `${post.title} - 6Pistons`,
-      description: post.description || "Professional motor and automotive review by 6Pistons Media.",
+      description:
+        post.description ||
+        "Professional motor and automotive review by 6Pistons Media.",
       images: [
         {
-          url: urlFor(post.mainImage).width(1200).height(675).url() || "https://www.6pistons.com/opengraph-image.png",
+          url:
+            urlFor(post.mainImage).width(1200).height(675).url() ||
+            "https://www.6pistons.com/opengraph-image.png",
           width: 1200,
           height: 675,
           alt: post.title,
-        }
+        },
       ],
       url: `https://www.6pistons.com/article/${post.slug.current}`,
       siteName: "6Pistons",
@@ -61,8 +74,13 @@ export async function generateMetadata({ params }: { params: any }) {
     twitter: {
       card: "summary_large_image",
       title: `${post.title} - 6Pistons`,
-      description: post.description || "Professional motor and automotive review by 6Pistons Media.",
-      images: [urlFor(post.mainImage).width(1200).height(675).url() || "https://www.6pistons.com/opengraph-image.png"],
+      description:
+        post.description ||
+        "Professional motor and automotive review by 6Pistons Media.",
+      images: [
+        urlFor(post.mainImage).width(1200).height(675).url() ||
+          "https://www.6pistons.com/opengraph-image.png",
+      ],
       creator: "@6PistonsMedia",
       site: "@6PistonsMedia",
     },
@@ -106,7 +124,9 @@ export default async function BlogPost({ params }: { params: any }) {
     author: {
       "@type": "Person",
       name: post.author?.name || "6Pistons Media",
-      url: post.author?.slug ? `https://www.6pistons.com/author/${post.author.slug.current}` : "https://www.6pistons.com",
+      url: post.author?.slug
+        ? `https://www.6pistons.com/author/${post.author.slug.current}`
+        : "https://www.6pistons.com",
     },
     publisher: {
       "@type": "Organization",
@@ -130,11 +150,11 @@ export default async function BlogPost({ params }: { params: any }) {
     types: {
       image: ({ value }: { value: any }) => (
         <Image
-          src={urlFor(value).width(800).height(450).url() || "/placeholder.svg"}
+          src={urlFor(value).url() || "/placeholder.svg"}
           alt={value.alt || ""}
           width={800}
           height={450}
-          className="rounded-lg object-cover w-full"
+          className="rounded-lg object-fill"
         />
       ),
     },
@@ -144,7 +164,9 @@ export default async function BlogPost({ params }: { params: any }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleStructuredData),
+        }}
       />
       <div className="flex flex-col lg:flex-row gap-8 pt-[10vh] md:py-12 justify-between relative z-20">
         <article className="lg:w-[70%]">
@@ -156,14 +178,11 @@ export default async function BlogPost({ params }: { params: any }) {
           {post.mainImage && (
             <div className="mb-8">
               <Image
-                src={
-                  urlFor(post.mainImage).width(1200).height(675).url() ||
-                  "/placeholder.svg"
-                }
+                src={urlFor(post.mainImage).url() || "/placeholder.svg"}
                 alt={post.title}
                 width={1200}
                 height={675}
-                className="rounded-lg object-cover w-full"
+                className="rounded-lg object-fill w-full"
               />
             </div>
           )}
@@ -231,7 +250,11 @@ export default async function BlogPost({ params }: { params: any }) {
               <h2 className="text-xl font-bold mb-2">Share</h2>
               <div className="flex space-x-4">
                 <a
-                  href={`https://wa.me/?text=${encodeURIComponent(`Check out this article: ${post.title} - ${getFullUrl(post.slug.current)}`)}`}
+                  href={`https://wa.me/?text=${encodeURIComponent(
+                    `Check out this article: ${post.title} - ${getFullUrl(
+                      post.slug.current
+                    )}`
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-500 hover:text-green-600"
@@ -263,7 +286,9 @@ export default async function BlogPost({ params }: { params: any }) {
                   </svg>
                 </a> */}
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this article: ${post.title}`)}&url=${encodeURIComponent(getFullUrl(post.slug.current))}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    `Check out this article: ${post.title}`
+                  )}&url=${encodeURIComponent(getFullUrl(post.slug.current))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:text-blue-500"
