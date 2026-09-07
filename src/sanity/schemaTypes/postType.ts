@@ -55,6 +55,40 @@ export const postType = defineType({
       name: "body",
       type: "blockContent",
     }),
+    defineField({
+      name: "rating",
+      title: "Review Score (Out of 10)",
+      type: "number",
+      description: "Optional overall rating for reviews (e.g., 8.8)",
+      validation: (Rule) => Rule.min(1).max(10),
+    }),
+    defineField({
+      name: "pros",
+      title: "Pros (The Good)",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "cons",
+      title: "Cons (The Bad)",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "faqs",
+      title: "Frequently Asked Questions (FAQ Schema)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "faqItem",
+          fields: [
+            defineField({ name: "question", title: "Question", type: "string" }),
+            defineField({ name: "answer", title: "Answer", type: "text" }),
+          ],
+        }),
+      ],
+    }),
   ],
   preview: {
     select: {

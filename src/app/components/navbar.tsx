@@ -23,17 +23,42 @@ export default function Navbar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 flex justify-center z-50 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`}
+      className={`fixed top-0 left-0 right-0 flex justify-center z-50 transition-transform duration-300 pointer-events-none ${visible ? "translate-y-0" : "-translate-y-full"}`}
     >
-      <nav className="flex items-center justify-between px-5 md:px-10 py-5 text-foreground bg-black rounded-xl bg-opacity-30 backdrop-blur-md gap-8 mt-10 ">
-        <Link href="/" className="flex items-center">
-          <Image src="/logo.svg" alt="6Piston Logo" width={40} height={40} className="rounded-full" />
+      <nav className="pointer-events-auto flex items-center justify-between px-4 sm:px-6 md:px-7 py-2.5 sm:py-3 md:py-3.5 text-foreground bg-neutral-950/85 border border-white/10 rounded-2xl backdrop-blur-md gap-3 sm:gap-5 md:gap-7 mt-4 md:mt-6 shadow-2xl">
+        <Link href="/" className="flex items-center group transition-transform duration-200 hover:scale-105 shrink-0" aria-label="6Pistons Home">
+          <Image
+            src="/logo.svg"
+            alt="6Pistons Media"
+            width={120}
+            height={32}
+            className="h-5 sm:h-6 md:h-7 w-auto object-contain"
+            priority
+          />
         </Link>
-        <div className="flex items-center gap-8">
-          <Link href="/#about" className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300">
+        <div className="flex items-center gap-3 sm:gap-5 md:gap-7">
+          <Link
+            href="/?category=Cars"
+            className="text-xs sm:text-sm md:text-base font-medium hover:text-BrandRed transition-colors duration-200 whitespace-nowrap"
+          >
+            Cars
+          </Link>
+          <Link
+            href="/?category=Aviation"
+            className="text-xs sm:text-sm md:text-base font-medium hover:text-BrandRed transition-colors duration-200 whitespace-nowrap"
+          >
+            Aviation
+          </Link>
+          <Link
+            href="/about"
+            className="text-xs sm:text-sm md:text-base font-medium hover:text-BrandRed transition-colors duration-200 whitespace-nowrap"
+          >
             About
           </Link>
-          <Link href="/#contact" className="md:text-xl font-medium hover:text-BrandRed transition-colors duration-300">
+          <Link
+            href="/contact"
+            className="text-xs sm:text-sm md:text-base font-medium hover:text-BrandRed transition-colors duration-200 whitespace-nowrap"
+          >
             Contact
           </Link>
           <Search />

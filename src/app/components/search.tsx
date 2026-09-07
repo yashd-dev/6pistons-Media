@@ -74,15 +74,30 @@ export default function Search() {
       setIsOpen(false);
     }
   };
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, []);
 
   return (
     <div className="relative z-50" ref={searchRef}>
       <button
         onClick={toggleSearch}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-black/30 backdrop-blur-md hover:bg-BrandRed/20 transition-colors duration-300"
-        aria-label="Search"
+        className="flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-black/30 backdrop-blur-md hover:bg-BrandRed/20 border border-white/10 transition-colors duration-300 group"
+        aria-label="Search (Cmd+K)"
+        title="Search (Cmd+K / Ctrl+K)"
       >
-        <SearchIcon className="w-5 h-5 text-white" />
+        <SearchIcon className="w-4 h-4 text-white group-hover:text-BrandRed transition-colors" />
+        <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 border border-white/10">
+          ⌘K
+        </kbd>
       </button>
 
       <AnimatePresence>
