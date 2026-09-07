@@ -69,8 +69,10 @@ Disallow: /api/
 Disallow: /studio/
 Disallow: /_next/data/
 
-# Sitemap
+# Sitemap & Feeds
 Sitemap: https://www.6pistons.com/sitemap.xml
+# RSS Feed: https://www.6pistons.com/feed.xml
+# LLMs.txt (AI Discovery): https://www.6pistons.com/llms.txt
 
 # Host
 Host: https://www.6pistons.com

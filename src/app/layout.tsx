@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   applicationName: "6Pistons",
   alternates: {
     canonical: "https://www.6pistons.com",
+    types: {
+      "application/rss+xml": "https://www.6pistons.com/feed.xml",
+    },
   },
   authors: [{ name: "6Pistons Media", url: "https://www.6pistons.com" }],
   keywords: ["motor reviews", "car reviews", "automotive", "6Pistons", "6 Pistons", "vehicle reviews", "car analysis", "automotive journalism"],

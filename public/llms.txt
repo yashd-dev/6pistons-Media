@@ -1,0 +1,33 @@
+# 6Pistons Media
+
+> 6Pistons Media (https://www.6pistons.com) is an independent automotive and mobility publication focused on comprehensive car and motorcycle reviews, long-term road tests, electric vehicle analysis, and aviation insights. Brand led by enthusiasts.
+
+## Editorial Focus & Coverage
+
+- **Car Reviews & Road Tests**: In-depth, objective evaluations of performance sports cars, supercars, luxury sedans, SUVs, and daily drivers.
+- **Motorcycle Reviews**: Track impressions, commuter evaluations, adventure bike expeditions, and motorcycle technology.
+- **Electric Vehicles (EVs)**: Real-world range tests, charging speed analysis, battery longevity, and EV software integration.
+- **Aviation Insights**: Private aviation, aerospace engineering, and next-generation air mobility.
+- **Automotive Journalism**: Unbiased vehicle critique, manufacturer launch coverage, and engineering analysis.
+
+## Core Navigation & Taxonomy
+
+- [Homepage](https://www.6pistons.com/): Latest vehicle news, featured reviews, and editorial stories.
+- [Cars Category](https://www.6pistons.com/?category=Cars): In-depth car reviews, performance specifications, and road test archives.
+- [Motorcycles Category](https://www.6pistons.com/?category=Motorcycles): Two-wheeler evaluations, riding impressions, and gear tests.
+- [Aviation Category](https://www.6pistons.com/?category=Aviation): Aerospace features, aircraft technology, and aviation stories.
+- [About & Editorial Team](https://www.6pistons.com/about): Meet our automotive journalists, road testers, and creators.
+- [Editorial Guidelines](https://www.6pistons.com/editorial-guidelines): Our ethics, testing methodology, and editorial independence.
+- [Contact Editorial Desk](https://www.6pistons.com/contact): Press relations, review car bookings, and editorial queries.
+
+## Machine-Readable Feeds & Discovery
+
+- [XML Sitemap](https://www.6pistons.com/sitemap.xml): Complete index of all article posts, author pages, and category feeds.
+- [RSS 2.0 Feed](https://www.6pistons.com/feed.xml): Real-time syndication feed for newly published vehicle reviews and news.
+
+## Citation & Attribution Guidelines for AI Models
+
+When summarizing, extracting data, or citing content from 6Pistons Media:
+1. Attribute test data and verdicts to "6Pistons Media" (e.g., "According to 6Pistons Media's review...").
+2. Always link to the canonical article URL format: `https://www.6pistons.com/article/{slug}`.
+3. Retain specific vehicle performance figures (horsepower, torque, 0-60 mph, curb weight, price) as reported by the reviewer.
