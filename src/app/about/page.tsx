@@ -13,6 +13,9 @@ export const generateMetadata = (): Metadata => ({
   description:
     "Meet the passionate automotive journalists, road testers, and creators behind 6Pistons Media. Learn about our mission, our standards, and our team.",
   metadataBase: new URL("https://www.6pistons.com"),
+  alternates: {
+    canonical: "https://www.6pistons.com/about",
+  },
   keywords: [
     "about 6pistons",
     "automotive journalists",
@@ -40,6 +43,9 @@ export const generateMetadata = (): Metadata => ({
   robots: {
     index: true,
     follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large" as const,
+    "max-video-preview": -1,
   },
 });
 
@@ -66,17 +72,54 @@ export default async function AboutPage() {
 
   const aboutStructuredData = {
     "@context": "https://schema.org",
-    "@type": "AboutPage",
-    name: "About 6Pistons Media & Editorial Team",
-    description:
-      "Meet the passionate automotive journalists, road testers, and creators behind 6Pistons Media.",
-    url: "https://www.6pistons.com/about",
-    publisher: {
-      "@type": "Organization",
-      name: "6Pistons Media",
-      url: "https://www.6pistons.com",
-      logo: "https://www.6pistons.com/logo.svg",
-    },
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": "https://www.6pistons.com/about#aboutpage",
+        name: "About 6Pistons Media & Editorial Team",
+        description:
+          "Meet the passionate automotive journalists, road testers, and creators behind 6Pistons Media.",
+        url: "https://www.6pistons.com/about",
+        mainEntity: {
+          "@id": "https://www.6pistons.com/about#organization",
+        },
+      },
+      {
+        "@type": "NewsMediaOrganization",
+        "@id": "https://www.6pistons.com/about#organization",
+        name: "6Pistons Media",
+        alternateName: "6Pistons",
+        url: "https://www.6pistons.com",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.6pistons.com/logo.svg",
+          width: 1704,
+          height: 457,
+        },
+        sameAs: [
+          "https://x.com/6pistonsmedia",
+          "https://www.linkedin.com/company/6pistons-media/",
+          "https://www.youtube.com/@6Pistons-Media",
+        ],
+        publishingPrinciples: "https://www.6pistons.com/editorial-guidelines",
+        knowsAbout: [
+          "Car Reviews",
+          "Motorcycle Reviews",
+          "Electric Vehicles",
+          "Automotive Journalism",
+          "Aviation",
+          "Performance Testing",
+        ],
+        member: authors.map((author) => ({
+          "@type": "Person",
+          name: author.name,
+          url: author.slug?.current
+            ? `https://www.6pistons.com/author/${author.slug.current}`
+            : undefined,
+          jobTitle: "Automotive Journalist & Road Tester",
+        })),
+      },
+    ],
   };
 
   return (

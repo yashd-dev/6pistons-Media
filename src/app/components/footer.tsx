@@ -34,9 +34,9 @@ export default function Footer() {
             </Link>
             <div className="max-w-prose">
               <div className="z-10 mt-4 flex w-full flex-col items-start text-left">
-                <h1 className="text-lg lg:text-xl">
+                <p className="text-lg lg:text-xl">
                   Brand Led by Enthusiasts
-                </h1>
+                </p>
               </div>
             </div>
           </div>

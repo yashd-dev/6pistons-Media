@@ -2,13 +2,12 @@ import type { MetadataRoute } from "next";
 import type { SanityDocument } from "@sanity/client";
 import { client } from "@/sanity/lib/client";
 
-async function getData() {
+async function getPosts() {
   const query = `*[_type == "post"] {
     "currentSlug": slug.current,
     "lastModified": _updatedAt
   }`;
-  const data = await client.fetch(query);
-  return data;
+  return client.fetch(query);
 }
 
 async function getAuthors() {
@@ -16,66 +15,94 @@ async function getAuthors() {
     "currentSlug": slug.current,
     "lastModified": _updatedAt
   }`;
-  const data = await client.fetch(query);
-  return data;
+  return client.fetch(query);
+}
+
+async function getCategories() {
+  const query = `*[_type == "category"] {
+    "title": title,
+    "lastModified": _updatedAt
+  }`;
+  return client.fetch(query);
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, authors] = await Promise.all([getData(), getAuthors()]);
-  
-  const postUrls: MetadataRoute.Sitemap = posts.map((post: SanityDocument) => ({
-    url: `https://www.6pistons.com/article/${post.currentSlug}`,
-    lastModified: post.lastModified,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
+  const [posts, authors, categories] = await Promise.all([
+    getPosts(),
+    getAuthors(),
+    getCategories(),
+  ]);
 
-  const authorUrls: MetadataRoute.Sitemap = authors.map((author: SanityDocument) => ({
-    url: `https://www.6pistons.com/author/${author.currentSlug}`,
-    lastModified: author.lastModified,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
+  const postUrls: MetadataRoute.Sitemap = posts.map(
+    (post: SanityDocument) => ({
+      url: `https://www.6pistons.com/article/${post.currentSlug}`,
+      lastModified: post.lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
+  const authorUrls: MetadataRoute.Sitemap = authors.map(
+    (author: SanityDocument) => ({
+      url: `https://www.6pistons.com/author/${author.currentSlug}`,
+      lastModified: author.lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })
+  );
+
+  const categoryUrls: MetadataRoute.Sitemap = categories.map(
+    (cat: SanityDocument) => ({
+      url: `https://www.6pistons.com/?category=${encodeURIComponent(cat.title)}`,
+      lastModified: cat.lastModified || new Date().toISOString(),
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    })
+  );
+
+  const now = new Date().toISOString();
 
   return [
     {
       url: "https://www.6pistons.com",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
       url: "https://www.6pistons.com/about",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: "https://www.6pistons.com/contact",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: "https://www.6pistons.com/editorial-guidelines",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: "https://www.6pistons.com/privacy",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "yearly",
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: "https://www.6pistons.com/terms",
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "yearly",
-      priority: 0.5,
+      priority: 0.3,
     },
+    ...categoryUrls,
     ...postUrls,
     ...authorUrls,
   ];
 }
+
 export const revalidate = 3600;

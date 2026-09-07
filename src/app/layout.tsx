@@ -51,46 +51,71 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large" as const,
+    "max-video-preview": -1,
     googleBot: {
       index: true,
       follow: true,
       "max-video-preview": -1,
-      "max-image-preview": "large",
+      "max-image-preview": "large" as const,
       "max-snippet": -1,
     },
   },
 };
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "6Pistons",
-  alternateName: "6Pistons Media",
-  url: "https://www.6pistons.com",
-  description: "Professional motor and automotive reviews by 6Pistons Media. Expert analysis, detailed insights, and comprehensive coverage of the latest vehicles.",
-  publisher: {
-    "@type": "Organization",
-    name: "6Pistons Media",
-    url: "https://www.6pistons.com",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://www.6pistons.com/logo.svg",
-      width: "112",
-      height: "112",
+  "@graph": [
+    {
+      "@type": "NewsMediaOrganization",
+      "@id": "https://www.6pistons.com/#organization",
+      name: "6Pistons Media",
+      alternateName: "6Pistons",
+      url: "https://www.6pistons.com",
+      description:
+        "Professional motor and automotive reviews by 6Pistons Media. Expert analysis, detailed insights, and comprehensive coverage of the latest vehicles.",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.6pistons.com/logo.svg",
+        width: 1704,
+        height: 457,
+      },
+      image: "https://www.6pistons.com/opengraph-image.png",
+      sameAs: [
+        "https://x.com/6pistonsmedia",
+        "https://www.linkedin.com/company/6pistons-media/",
+        "https://www.youtube.com/@6Pistons-Media",
+      ],
+      publishingPrinciples: "https://www.6pistons.com/editorial-guidelines",
+      knowsAbout: [
+        "Car Reviews",
+        "Motorcycle Reviews",
+        "Electric Vehicles",
+        "Automotive Journalism",
+        "Aviation",
+        "Performance Testing",
+      ],
     },
-    sameAs: [
-      "https://twitter.com/6PistonsMedia",
-      "https://www.linkedin.com/company/6pistons-media/",
-      "https://www.youtube.com/@6Pistons-Media",
-    ],
-  },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://www.6pistons.com/search?q={search_term_string}",
+    {
+      "@type": "WebSite",
+      "@id": "https://www.6pistons.com/#website",
+      name: "6Pistons",
+      alternateName: "6Pistons Media",
+      url: "https://www.6pistons.com",
+      publisher: {
+        "@id": "https://www.6pistons.com/#organization",
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate:
+            "https://www.6pistons.com/?search={search_term_string}",
+        },
+        "query-input": "required name=search_term_string",
+      },
     },
-    "query-input": "required name=search_term_string",
-  },
+  ],
 };
 
 export default function RootLayout({
