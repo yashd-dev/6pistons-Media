@@ -35,12 +35,7 @@ export default function Footer() {
             <div className="max-w-prose">
               <div className="z-10 mt-4 flex w-full flex-col items-start text-left">
                 <h1 className="text-lg lg:text-xl">
-                  6Pistons → Your ultimate destination for expert automotive
-                  insights and reviews. From cars to two-wheelers, every review
-                  empowers buyers, enthusiasts, and industry leaders ● We focus
-                  on performance, design, and tech to deliver actionable advice.
-                  At 6Pistons, it&apos;s more than and vehicles—it&apos;s about
-                  innovation, experiences, and the future of mobility.
+                  Brand Led by Enthusiasts
                 </h1>
               </div>
             </div>
