@@ -170,6 +170,15 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-2 border-t py-4 sm:flex sm:flex-row sm:items-center sm:justify-between border-red-500/30">
+          <p id="contact" className="text-sm text-neutral-400">
+            You can reach out to us anytime at{" "}
+            <a
+              href="mailto:contact@6pistons.com"
+              className="text-neutral-200 hover:text-BrandRed transition-colors underline"
+            >
+              contact@6pistons.com
+            </a>
+          </p>
           <div className="flex space-x-5 sm:mt-0 sm:justify-center">
             <Link
               href="https://www.linkedin.com/company/6pistons-media/"
