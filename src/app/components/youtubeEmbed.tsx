@@ -3,19 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Play, Youtube, ExternalLink } from "lucide-react";
+import { extractYouTubeId } from "@/lib/slugs";
 
 interface YouTubeEmbedProps {
   url?: string;
   title: string;
   posterImage?: string;
-}
-
-export function extractYouTubeId(url?: string): string | null {
-  if (!url) return null;
-  const regExp =
-    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
 }
 
 export default function YouTubeEmbed({

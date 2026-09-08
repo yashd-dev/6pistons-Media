@@ -13,9 +13,9 @@
 ## Core Navigation & Taxonomy
 
 - [Homepage](https://www.6pistons.com/): Latest vehicle news, featured reviews, and editorial stories.
-- [Cars Category](https://www.6pistons.com/?category=Cars): In-depth car reviews, performance specifications, and road test archives.
-- [Motorcycles Category](https://www.6pistons.com/?category=Motorcycles): Two-wheeler evaluations, riding impressions, and gear tests.
-- [Aviation Category](https://www.6pistons.com/?category=Aviation): Aerospace features, aircraft technology, and aviation stories.
+- [Cars Category](https://www.6pistons.com/category/cars): In-depth car reviews, performance specifications, and road test archives.
+- [Motorcycles Category](https://www.6pistons.com/category/bikes): Two-wheeler evaluations, riding impressions, and gear tests.
+- [Aviation Category](https://www.6pistons.com/category/aviation): Aerospace features, aircraft technology, and aviation stories.
 - [About & Editorial Team](https://www.6pistons.com/about): Meet our automotive journalists, road testers, and creators.
 - [Editorial Guidelines](https://www.6pistons.com/editorial-guidelines): Our ethics, testing methodology, and editorial independence.
 - [Contact Editorial Desk](https://www.6pistons.com/contact): Press relations, review car bookings, and editorial queries.

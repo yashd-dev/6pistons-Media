@@ -7,8 +7,8 @@ import { notFound } from "next/navigation";
 import PostNavigation from "@/app/components/post-navigation";
 import { fetchAdjacentPosts } from "@/app/actions/fetchAdjacentPosts";
 import { Check, X as XIcon, Clock, Share2, ShieldCheck, ChevronRight } from "lucide-react";
-import YouTubeEmbed, { extractYouTubeId } from "@/app/components/youtubeEmbed";
-import { categoryToSlug } from "@/lib/slugs";
+import YouTubeEmbed from "@/app/components/youtubeEmbed";
+import { categoryToSlug, extractYouTubeId } from "@/lib/slugs";
 
 export const revalidate = 60; // ISR revalidation
 

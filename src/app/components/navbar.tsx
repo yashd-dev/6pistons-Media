@@ -77,16 +77,18 @@ export default function Navbar() {
           {/* Desktop & Laptop Navigation Links (md and up) */}
           <div className="hidden md:flex items-center gap-5 lg:gap-7 2xl:gap-8">
             <Link
-              href="/?category=Cars"
+              href="/category/cars"
               className={`text-sm lg:text-base font-medium transition-colors duration-200 whitespace-nowrap ${
-                pathname === "/" ? "hover:text-BrandRed" : "text-neutral-300 hover:text-white"
+                pathname === "/category/cars" ? "text-BrandRed font-semibold" : "text-neutral-300 hover:text-white"
               }`}
             >
               Cars
             </Link>
             <Link
-              href="/?category=Aviation"
-              className="text-sm lg:text-base font-medium text-neutral-300 hover:text-BrandRed transition-colors duration-200 whitespace-nowrap"
+              href="/category/aviation"
+              className={`text-sm lg:text-base font-medium transition-colors duration-200 whitespace-nowrap ${
+                pathname === "/category/aviation" ? "text-BrandRed font-semibold" : "text-neutral-300 hover:text-white"
+              }`}
             >
               Aviation
             </Link>
@@ -141,7 +143,7 @@ export default function Navbar() {
               </span>
 
               <Link
-                href="/?category=Cars"
+                href="/category/cars"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.04] hover:bg-BrandRed/10 border border-white/10 active:border-BrandRed/40 transition-all text-lg font-medium text-white group"
               >
@@ -157,7 +159,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/?category=Aviation"
+                href="/category/aviation"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.04] hover:bg-BrandRed/10 border border-white/10 active:border-BrandRed/40 transition-all text-lg font-medium text-white group"
               >

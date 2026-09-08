@@ -3,7 +3,7 @@ import type { SanityDocument } from "@sanity/client";
 import { client } from "@/sanity/lib/client";
 
 async function getPosts() {
-  const query = `*[_type == "post"] {
+  const query = `*[_type == "post" && defined(slug.current)] {
     "currentSlug": slug.current,
     "lastModified": _updatedAt
   }`;
@@ -11,7 +11,7 @@ async function getPosts() {
 }
 
 async function getAuthors() {
-  const query = `*[_type == "author"] {
+  const query = `*[_type == "author" && defined(slug.current)] {
     "currentSlug": slug.current,
     "lastModified": _updatedAt
   }`;
@@ -19,7 +19,7 @@ async function getAuthors() {
 }
 
 async function getCategories() {
-  const query = `*[_type == "category"] {
+  const query = `*[_type == "category" && defined(title)] {
     "title": title,
     "lastModified": _updatedAt
   }`;
