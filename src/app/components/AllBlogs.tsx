@@ -63,17 +63,17 @@ export default function AllArticles({
   const isLineInView = useInView(lineRef, { once: true });
 
   return (
-    <div className="w-full max-w-[90rem] mx-auto px-4 py-8">
+    <div className="w-full max-w-[90rem] 2xl:max-w-[110rem] 3xl:max-w-[130rem] mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-8">
       {currentPage === 1 && (!currentCategory || currentCategory === "all") && (
         <HomeClient />
       )}
       <TitleCard featuredPost={featuredPost} />
 
-      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-4 py-10  text-foreground mx-auto gap-10">
-        <div className="flex flex-row w-full justify-between items-center ">
+      <section className="flex flex-col items-start justify-start w-full h-full relative z-20 px-0 sm:px-4 py-6 sm:py-10 text-foreground mx-auto gap-6 sm:gap-10">
+        <div className="flex flex-col sm:flex-row w-full justify-between items-start sm:items-center gap-3 sm:gap-4">
           <motion.h1
             ref={titleRef}
-            className="md:text-xl font-bold uppercase text-BrandRed w-full inline-flex justify-between"
+            className="text-lg sm:text-xl md:text-2xl 2xl:text-3xl font-bold uppercase text-BrandRed tracking-wide"
             style={{
               opacity: isTitleInView ? 1 : 0,
               transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
@@ -81,12 +81,12 @@ export default function AllArticles({
           >
             Latest Articles
           </motion.h1>
-          <div className="mb-8 relative z-20">
+          <div className="relative z-20 w-full sm:w-auto">
             <select
               id="category"
               value={currentCategory || ""}
               onChange={(e) => handleCategoryChange(e.target.value)}
-              className="border border-white/20 rounded p-2 bg-neutral-900"
+              className="w-full sm:w-auto border border-white/20 rounded-xl px-3 py-2 text-xs sm:text-sm bg-neutral-900 text-white focus:outline-none focus:border-BrandRed transition-colors"
             >
               <option value="">All Categories</option>
               {categories.map((cat) => (
@@ -100,14 +100,14 @@ export default function AllArticles({
 
         <motion.div
           ref={lineRef}
-          className="h-1 w-full bg-BrandRed/10"
+          className="h-0.5 w-full bg-BrandRed/20"
           style={{
             opacity: isLineInView ? 1 : 0,
             transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
             transitionDelay: "0.2s",
           }}
         ></motion.div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 w-full">
           {posts.map((post) => (
             <BlogCard
               key={post._id}
@@ -159,32 +159,32 @@ function TitleCard({ featuredPost }: { featuredPost: any }) {
   return (
     <Link
       href={`/article/${featuredPost.slug.current}`}
-      className="w-full transition-all duration-300 ease-in-out rounded-2xl group "
+      className="w-full transition-all duration-300 ease-in-out rounded-2xl group block"
     >
-      <div className="max-w-[90rem] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 py-12 px-4 md:px-0 pt-[10vh]">
-        <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+      <div className="max-w-[90rem] 2xl:max-w-[110rem] 3xl:max-w-[130rem] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sm:gap-8 lg:gap-12 py-6 sm:py-10 lg:py-14 px-0 sm:px-4">
+        <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
           <Image
             src={urlFor(featuredPost.mainImage).width(800).height(600).url()}
             alt={featuredPost.title}
             width={800}
             height={600}
-            className="rounded-2xl shadow-lg object-cover aspect-video transition-transform duration-300 group-hover:scale-105"
+            className="rounded-2xl shadow-lg object-cover aspect-video w-full transition-transform duration-300 group-hover:scale-[1.02]"
           />
         </div>
-        <div className="w-full md:w-1/2 md:text-left space-y-4">
-          <div className="flex items-center space-x-2 text-sm text-foreground/70 mb-2">
+        <div className="w-full lg:w-1/2 text-left space-y-3 sm:space-y-4">
+          <div className="flex items-center space-x-2 text-xs sm:text-sm text-foreground/70 mb-1">
             <span>
               {new Date(featuredPost.publishedAt).toLocaleDateString()}
             </span>
             <span>•</span>
             <span>{featuredPost.estimatedReadingTime} min read</span>
           </div>
-          <h1 className=" font-bigShoulders text-4xl md:text-5xl font-bold text-red-500 mb-4">
+          <h1 className="font-bigShoulders text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold text-red-500 mb-2 sm:mb-4 leading-tight">
             {featuredPost.title}
           </h1>
-          <p className="text-lg text-gray-300 md:max-w-[60ch] ">
-            {featuredPost.description.split(" ").slice(0, 10).join(" ")}
-            {featuredPost.description.split(" ").length > 10 && " ..."}
+          <p className="text-sm sm:text-base md:text-lg 2xl:text-xl text-gray-300 lg:max-w-[60ch] leading-relaxed">
+            {featuredPost.description.split(" ").slice(0, 15).join(" ")}
+            {featuredPost.description.split(" ").length > 15 && " ..."}
           </p>
         </div>
       </div>

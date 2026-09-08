@@ -107,7 +107,7 @@ export default function Search() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-[-110%]  translate-x-[50%]  mt-8 w-[90vw] md:w-screen max-w-md bg-black/90 backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden border border-white/10"
+            className="fixed inset-x-3 sm:inset-auto sm:right-0 top-16 sm:top-auto sm:mt-4 w-[calc(100vw-1.5rem)] sm:w-96 md:w-[28rem] sm:max-w-md bg-black/95 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden border border-white/10 z-50"
           >
             <div className="p-4">
               <div className="relative">

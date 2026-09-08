@@ -128,60 +128,60 @@ export default async function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutStructuredData) }}
       />
-      <div className="min-h-screen pt-36 sm:pt-44 lg:pt-48 pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-white">
+      <div className="min-h-screen pt-24 sm:pt-32 md:pt-40 2xl:pt-48 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl 2xl:max-w-7xl 3xl:max-w-[100rem] mx-auto text-white">
         {/* Hero Section */}
-        <header className="text-center mb-16 sm:mb-24">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-BrandRed/10 border border-BrandRed/20 text-BrandRed uppercase tracking-widest text-xs font-semibold mb-6">
+        <header className="text-center mb-10 sm:mb-16 md:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-BrandRed/10 border border-BrandRed/20 text-BrandRed uppercase tracking-widest text-[11px] sm:text-xs font-semibold mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-BrandRed animate-pulse" />
             Brand Led by Enthusiasts
           </div>
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold font-bigShoulders tracking-tight text-white mb-6 uppercase">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl 2xl:text-9xl font-bold font-bigShoulders tracking-tight text-white mb-4 sm:mb-6 uppercase leading-[0.95] sm:leading-none">
             Meet the 6Pistons Team
           </h1>
-          <p className="max-w-2xl mx-auto text-lg sm:text-xl text-neutral-300 font-light leading-relaxed">
+          <p className="max-w-2xl 2xl:max-w-4xl mx-auto text-base sm:text-lg md:text-xl 2xl:text-2xl text-neutral-300 font-light leading-relaxed">
             We are road testers, automotive engineers, track racers, and die-hard motor enthusiasts dedicated to delivering honest, unfiltered car and motorcycle journalism.
           </p>
         </header>
 
         {/* Mission & Values Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          <div className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-4 text-lg">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 md:mb-20">
+          <div className="p-5 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-3 sm:mb-4 text-base sm:text-lg">
               01
             </div>
-            <h2 className="text-xl font-bold mb-2">Unfiltered Reviews</h2>
-            <p className="text-neutral-400 text-sm leading-relaxed">
+            <h2 className="text-lg sm:text-xl font-bold mb-2">Unfiltered Reviews</h2>
+            <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed">
               Real-world road testing focused on handling, power delivery, design, and practicality. No PR fluff.
             </p>
           </div>
-          <div className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-4 text-lg">
+          <div className="p-5 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-3 sm:mb-4 text-base sm:text-lg">
               02
             </div>
-            <h2 className="text-xl font-bold mb-2">Technical Depth</h2>
-            <p className="text-neutral-400 text-sm leading-relaxed">
+            <h2 className="text-lg sm:text-xl font-bold mb-2">Technical Depth</h2>
+            <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed">
               Our writers include engineers and racers who understand chassis dynamics, software architecture, and powertrain mechanics.
             </p>
           </div>
-          <div className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-4 text-lg">
+          <div className="p-5 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-BrandRed/30 transition-all">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-BrandRed/10 text-BrandRed flex items-center justify-center font-bold font-mono mb-3 sm:mb-4 text-base sm:text-lg">
               03
             </div>
-            <h2 className="text-xl font-bold mb-2">Actionable Advice</h2>
-            <p className="text-neutral-400 text-sm leading-relaxed">
+            <h2 className="text-lg sm:text-xl font-bold mb-2">Actionable Advice</h2>
+            <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed">
               Helping buyers and collectors make the right vehicle decisions with comprehensive comparisons and ownership insights.
             </p>
           </div>
         </section>
 
         {/* Team Section */}
-        <section className="mb-24">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 border-b border-white/10 pb-6 gap-4">
+        <section className="mb-14 sm:mb-20 md:mb-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 border-b border-white/10 pb-6 gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold font-bigShoulders tracking-wide text-white uppercase">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl 2xl:text-5xl font-bold font-bigShoulders tracking-wide text-white uppercase">
                 The Editorial Masthead
               </h2>
-              <p className="text-neutral-400 text-sm mt-1">
+              <p className="text-neutral-400 text-xs sm:text-sm mt-1">
                 The voices and road testers shaping automotive culture at 6Pistons.
               </p>
             </div>
@@ -190,14 +190,14 @@ export default async function AboutPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
             {authors.map((author) => (
               <div
                 key={author._id}
-                className="group relative flex flex-col p-6 rounded-2xl bg-neutral-950/60 border border-white/10 hover:border-BrandRed/40 transition-all duration-300 hover:shadow-xl hover:shadow-BrandRed/5"
+                className="group relative flex flex-col p-5 sm:p-6 rounded-2xl bg-neutral-950/60 border border-white/10 hover:border-BrandRed/40 transition-all duration-300 hover:shadow-xl hover:shadow-BrandRed/5"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden border border-white/10 group-hover:border-BrandRed transition-colors shrink-0 bg-neutral-800">
+                <div className="flex items-center gap-3.5 sm:gap-4 mb-3 sm:mb-4">
+                  <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border border-white/10 group-hover:border-BrandRed transition-colors shrink-0 bg-neutral-800">
                     {author.image ? (
                       <Image
                         src={urlFor(author.image).width(160).height(160).url()}
@@ -206,13 +206,13 @@ export default async function AboutPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-white/50 font-bold text-lg font-mono">
+                      <div className="w-full h-full flex items-center justify-center text-white/50 font-bold text-base sm:text-lg font-mono">
                         {author.name.charAt(0)}
                       </div>
                     )}
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-white group-hover:text-BrandRed transition-colors">
+                    <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-BrandRed transition-colors">
                       {author.name}
                     </h3>
                     <p className="text-xs text-neutral-400 font-mono mt-0.5">
@@ -221,7 +221,7 @@ export default async function AboutPage() {
                   </div>
                 </div>
 
-                <div className="text-sm text-neutral-400 leading-relaxed mb-6 flex-1 line-clamp-4">
+                <div className="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-4 sm:mb-6 flex-1 line-clamp-4">
                   {author.bio ? (
                     <PortableText value={author.bio} />
                   ) : (
@@ -234,7 +234,7 @@ export default async function AboutPage() {
                 {author.slug?.current && (
                   <Link
                     href={`/author/${author.slug.current}`}
-                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-BrandRed hover:text-white transition-colors mt-auto pt-4 border-t border-white/5"
+                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-BrandRed hover:text-white transition-colors mt-auto pt-3 sm:pt-4 border-t border-white/5"
                   >
                     View Published Articles
                     <svg
@@ -260,23 +260,23 @@ export default async function AboutPage() {
         </section>
 
         {/* Contact CTA */}
-        <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-BrandRed/20 via-black to-neutral-900 border border-BrandRed/30 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold font-bigShoulders tracking-wide mb-3">
+        <section className="p-6 sm:p-10 md:p-12 2xl:p-16 rounded-3xl bg-gradient-to-r from-BrandRed/20 via-black to-neutral-900 border border-BrandRed/30 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl 2xl:text-5xl font-bold font-bigShoulders tracking-wide mb-3">
             Want to Join the Team or Pitch a Story?
           </h2>
-          <p className="text-neutral-300 max-w-xl mx-auto text-sm sm:text-base mb-6">
+          <p className="text-neutral-300 max-w-xl mx-auto text-xs sm:text-sm md:text-base mb-6">
             We are always looking for passionate automotive photographers, road testers, and investigative writers.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/contact"
-              className="px-6 py-3 rounded-full bg-BrandRed hover:bg-red-600 text-white font-medium text-sm transition-colors"
+              className="w-full sm:w-auto px-6 py-3 rounded-full bg-BrandRed hover:bg-red-600 text-white font-medium text-sm transition-colors text-center"
             >
               Get in Touch
             </Link>
             <Link
               href="/editorial-guidelines"
-              className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition-colors border border-white/10"
+              className="w-full sm:w-auto px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition-colors border border-white/10 text-center"
             >
               Our Editorial Standards
             </Link>

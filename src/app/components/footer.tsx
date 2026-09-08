@@ -9,19 +9,19 @@ export default function Footer() {
   const isInView = useInView(ref, { once: true });
   return (
     <footer
-      className="border-t border-red-500 max-w-[90rem] mx-auto"
+      className="border-t border-red-500 max-w-[90rem] 2xl:max-w-[110rem] 3xl:max-w-[130rem] mx-auto px-4 sm:px-6 lg:px-8"
       id="about"
       ref={ref}
     >
       <div
-        className=" w-full px-4 md:px-0 relative z-50 mx-auto text-white "
+        className="w-full relative z-50 mx-auto text-white"
         style={{
           opacity: isInView ? 1 : 0,
           transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
         }}
       >
         <div className="w-full border-t border-red-500/30"></div>
-        <div className="gap-4 p-4 md:p-0 md:py-16 py-16 sm:pb-16 md:flex md:justify-between">
+        <div className="gap-6 sm:gap-8 py-10 sm:py-14 md:py-16 md:flex md:justify-between">
           <div className="mb-12 flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
               <Image
