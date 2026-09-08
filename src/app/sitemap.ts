@@ -52,12 +52,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const categoryUrls: MetadataRoute.Sitemap = categories.map(
-    (cat: SanityDocument) => ({
-      url: `https://www.6pistons.com/?category=${encodeURIComponent(cat.title)}`,
-      lastModified: cat.lastModified || new Date().toISOString(),
-      changeFrequency: "daily" as const,
-      priority: 0.9,
-    })
+    (cat: SanityDocument) => {
+      const slug = cat.title
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      return {
+        url: `https://www.6pistons.com/category/${slug}`,
+        lastModified: cat.lastModified || new Date().toISOString(),
+        changeFrequency: "daily" as const,
+        priority: 0.9,
+      };
+    }
   );
 
   const now = new Date().toISOString();

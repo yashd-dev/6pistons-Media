@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { HomeClient } from "./heroClient";
+import { categoryToSlug } from "@/lib/slugs";
 
 export default function AllArticles({
   initialPosts,
@@ -96,6 +97,37 @@ export default function AllArticles({
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Crawlable Category Filter Badges (Internal SEO Linking) */}
+        <div className="flex items-center gap-2 overflow-x-auto w-full pb-2 pt-1 scrollbar-hide">
+          <Link
+            href="/"
+            className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-mono transition-all border ${
+              !currentCategory
+                ? "bg-BrandRed text-white border-BrandRed shadow-md shadow-BrandRed/20"
+                : "bg-white/[0.03] text-neutral-300 border-white/10 hover:border-BrandRed/40 hover:text-white"
+            }`}
+          >
+            All Articles
+          </Link>
+          {categories.map((cat) => {
+            const slug = categoryToSlug(cat.title);
+            const isActive = currentCategory === cat.title;
+            return (
+              <Link
+                key={cat.title}
+                href={`/category/${slug}`}
+                className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-mono transition-all border ${
+                  isActive
+                    ? "bg-BrandRed text-white border-BrandRed shadow-md shadow-BrandRed/20"
+                    : "bg-white/[0.03] text-neutral-300 border-white/10 hover:border-BrandRed/40 hover:text-white"
+                }`}
+              >
+                {cat.title}
+              </Link>
+            );
+          })}
         </div>
 
         <motion.div

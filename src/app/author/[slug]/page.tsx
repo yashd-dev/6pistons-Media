@@ -26,19 +26,88 @@ async function getAuthor(slug: string) {
   );
 }
 
-export default async function AuthorPage({ params }: { params: any }) {
-  const slugie = await params.slug;
-  const author = await getAuthor(slugie);
-  let authorImage = urlFor(author.image).width(192).height(192).url();
+import type { Metadata } from "next";
+
+export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: any;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const author = await getAuthor(slug);
   if (!author) {
-    return <div>Author not found</div>;
-  }
-  if (!authorImage) {
-    authorImage = "/logo.svg";
+    return {
+      title: "Author Not Found - 6Pistons Media",
+      description: "The requested author profile could not be found.",
+    };
   }
 
+  const title = `${author.name} - Motoring Journalist & Writer Archive | 6Pistons Media`;
+  const description =
+    `Read all automotive reviews, car road tests, and feature articles by ${author.name} on 6Pistons Media.`;
+  const canonicalUrl = `https://www.6pistons.com/author/${slug}`;
+  const authorImg = author.image
+    ? urlFor(author.image).width(800).height(800).url()
+    : "https://www.6pistons.com/opengraph-image.png";
+
+  return {
+    title,
+    description,
+    metadataBase: new URL("https://www.6pistons.com"),
+    alternates: {
+      canonical: `/author/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: "profile",
+      images: [{ url: authorImg, width: 800, height: 800, alt: author.name }],
+      siteName: "6Pistons Media",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+      images: [authorImg],
+    },
+  };
+}
+
+export default async function AuthorPage({ params }: { params: any }) {
+  const { slug } = await params;
+  const author = await getAuthor(slug);
+  if (!author) {
+    return <div className="min-h-[50vh] flex items-center justify-center text-white">Author not found</div>;
+  }
+  const authorImage = author.image ? urlFor(author.image).width(256).height(256).url() : "/logo.svg";
+
+  const authorSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: author.name,
+      url: `https://www.6pistons.com/author/${author.slug}`,
+      image: authorImage,
+      jobTitle: "Automotive Journalist & Road Tester",
+      worksFor: {
+        "@type": "NewsMediaOrganization",
+        name: "6Pistons Media",
+        url: "https://www.6pistons.com",
+      },
+    },
+  };
+
   return (
-    <div className="container mx-auto px-4 pt-[10vh]">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorSchema) }}
+      />
+      <div className="container mx-auto px-4 pt-[10vh]">
       <div className="flex flex-col md:flex-row items-center justify-center w-full h-full relative z-20 px-4 py-10 md:px-28 text-foreground mx-auto gap-10">
         <div className="w-48 h-48 relative rounded-full overflow-hidden">
           <Image
@@ -62,5 +131,6 @@ export default async function AuthorPage({ params }: { params: any }) {
         posts={author.articles}
       />
     </div>
+    </>
   );
 }

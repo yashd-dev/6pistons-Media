@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "Learn about 6Pistons Media's rigorous editorial standards, test driving methodology, press vehicle loaner policy, advertising separation, and fact-checking principles.",
   metadataBase: new URL("https://www.6pistons.com"),
+  alternates: {
+    canonical: "/editorial-guidelines",
+  },
   robots: {
     index: true,
     follow: true,

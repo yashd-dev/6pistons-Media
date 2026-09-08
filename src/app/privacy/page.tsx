@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "Read the 6Pistons Media Privacy Policy. Understand how we collect, use, and protect your information in compliance with Google AdSense, GDPR, and CCPA standards.",
   metadataBase: new URL("https://www.6pistons.com"),
+  alternates: {
+    canonical: "/privacy",
+  },
   robots: {
     index: true,
     follow: true,

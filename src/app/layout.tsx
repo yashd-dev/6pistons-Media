@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.6pistons.com"),
   applicationName: "6Pistons",
   alternates: {
-    canonical: "https://www.6pistons.com",
     types: {
       "application/rss+xml": "https://www.6pistons.com/feed.xml",
     },

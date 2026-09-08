@@ -56,6 +56,12 @@ export const postType = defineType({
       type: "blockContent",
     }),
     defineField({
+      name: "youtubeUrl",
+      title: "YouTube Video URL (Review / Walkthrough)",
+      type: "url",
+      description: "Optional YouTube video URL for this review (e.g. https://www.youtube.com/watch?v=...)",
+    }),
+    defineField({
       name: "rating",
       title: "Review Score (Out of 10)",
       type: "number",

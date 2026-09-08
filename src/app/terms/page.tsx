@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "Review the Terms of Service for 6Pistons Media. Understand user rights, editorial content terms, copyright, and disclaimers.",
   metadataBase: new URL("https://www.6pistons.com"),
+  alternates: {
+    canonical: "/terms",
+  },
   robots: {
     index: true,
     follow: true,

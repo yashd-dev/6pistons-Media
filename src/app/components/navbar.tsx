@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Car, Plane, Users, Mail, BookOpen, ExternalLink } from "lucide-react";
+import { Menu, X, Car, Plane, Users, Mail, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Search from "./search";
 

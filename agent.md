@@ -2,7 +2,7 @@
 
 > **Last Updated:** September 2026  
 > **Repository:** `yashd-dev/6pistons-Media`  
-> **Brand Name:** 6Pistons (formerly 91turbo)  
+> **Brand Name:** 6Pistons  
 > **Purpose:** Automotive media publication platform featuring vehicle news, reviews, and editorial content.
 
 ---

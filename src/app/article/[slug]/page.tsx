@@ -7,6 +7,8 @@ import { notFound } from "next/navigation";
 import PostNavigation from "@/app/components/post-navigation";
 import { fetchAdjacentPosts } from "@/app/actions/fetchAdjacentPosts";
 import { Check, X as XIcon, Clock, Share2, ShieldCheck, ChevronRight } from "lucide-react";
+import YouTubeEmbed, { extractYouTubeId } from "@/app/components/youtubeEmbed";
+import { categoryToSlug } from "@/lib/slugs";
 
 export const revalidate = 60; // ISR revalidation
 
@@ -25,6 +27,7 @@ const POST_QUERY = `
     author->{name, image, slug},
     categories[]->{title},
     body,
+    youtubeUrl,
     rating,
     pros,
     cons,
@@ -249,6 +252,25 @@ export default async function BlogPost({ params }: { params: any }) {
     });
   }
 
+  const videoId = extractYouTubeId(post.youtubeUrl);
+  if (videoId) {
+    schemas.push({
+      "@type": "VideoObject",
+      "@id": `${articleUrl}#video`,
+      name: `${post.title} - Video Review & Road Test`,
+      description:
+        post.description ||
+        `Watch 6Pistons Media road test and performance review of the ${post.title}`,
+      thumbnailUrl: [
+        `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+        `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+        imageUrl,
+      ],
+      uploadDate: post.publishedAt,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}`,
+    });
+  }
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": schemas,
@@ -256,23 +278,30 @@ export default async function BlogPost({ params }: { params: any }) {
 
   const PortableTextComponents = {
     types: {
-      image: ({ value }: { value: any }) => (
-        <figure className="my-8">
-          <Image
-            src={urlFor(value).width(1000).format("webp").quality(80).url() || "/placeholder.svg"}
-            alt={value.alt || post.title}
-            width={1000}
-            height={562}
-            loading="lazy"
-            className="rounded-xl object-cover w-full shadow-lg"
-          />
-          {value.alt && (
-            <figcaption className="text-center text-xs text-neutral-400 mt-2 font-mono">
-              {value.alt}
-            </figcaption>
-          )}
-        </figure>
-      ),
+      image: ({ value }: { value: any }) => {
+        const altText =
+          value.alt ||
+          value.caption ||
+          `${post.title} - ${post.categories?.[0]?.title || "Automotive"} Road Test & Performance Review`;
+        return (
+          <figure className="my-8">
+            <Image
+              src={urlFor(value).width(1200).fit("max").url() || "/placeholder.svg"}
+              alt={altText}
+              width={1200}
+              height={675}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 850px"
+              className="rounded-xl object-cover w-full shadow-lg"
+            />
+            {(value.caption || value.alt) && (
+              <figcaption className="text-center text-xs text-neutral-400 mt-2 font-mono">
+                {value.caption || value.alt}
+              </figcaption>
+            )}
+          </figure>
+        );
+      },
     },
   };
 
@@ -310,9 +339,12 @@ export default async function BlogPost({ params }: { params: any }) {
               {/* Category and Reading Time Tag Line */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 {post.categories?.[0]?.title && (
-                  <span className="px-3 py-1 rounded-full bg-BrandRed/10 text-BrandRed font-mono text-xs font-semibold uppercase tracking-wider border border-BrandRed/20">
+                  <Link
+                    href={`/category/${categoryToSlug(post.categories[0].title)}`}
+                    className="px-3 py-1 rounded-full bg-BrandRed/10 hover:bg-BrandRed/20 text-BrandRed font-mono text-xs font-semibold uppercase tracking-wider border border-BrandRed/20 transition-colors"
+                  >
                     {post.categories[0].title}
-                  </span>
+                  </Link>
                 )}
                 <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400">
                   <Clock className="w-3.5 h-3.5 text-BrandRed" />
@@ -462,6 +494,13 @@ export default async function BlogPost({ params }: { params: any }) {
               </section>
             )}
 
+            {/* Video Review Embed & Conversion Module */}
+            <YouTubeEmbed
+              url={post.youtubeUrl}
+              title={post.title}
+              posterImage={imageUrl}
+            />
+
             {/* Article Body Content */}
             <div className="prose md:prose-lg prose-red max-w-none prose-invert prose-headings:font-bigShoulders prose-headings:tracking-wide prose-headings:text-BrandRed prose-img:rounded-xl prose-img:shadow-2xl md:text-justify prose-p:leading-relaxed prose-p:py-2">
               <PortableText value={post.body} components={PortableTextComponents} />
@@ -545,7 +584,7 @@ export default async function BlogPost({ params }: { params: any }) {
                     {post.categories.map((cat: any) => (
                       <Link
                         key={cat.title}
-                        href={`/?category=${encodeURIComponent(cat.title)}`}
+                        href={`/category/${categoryToSlug(cat.title)}`}
                         className="px-3 py-1 rounded-full bg-black/50 text-neutral-300 hover:text-white hover:bg-BrandRed/20 border border-white/10 text-xs font-mono transition-all"
                       >
                         #{cat.title}
