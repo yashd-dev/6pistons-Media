@@ -1,270 +1,222 @@
-# 6Pistons - Automotive Content Platform
+# 6Pistons Media — Publication Website (upstream)
 
-## Overview
+**Automotive reviews publication with a built-in CMS, engineered for Google and AI-search visibility.**
 
-6Pistons is a professional automotive content platform designed to deliver high-quality reviews, articles, and insights about cars, motorcycles, and the automotive industry. The platform features a modern, responsive design with advanced functionality including real-time comments, search capabilities, infinite scrolling, and dynamic content management via Sanity CMS.
+![Status](https://img.shields.io/badge/status-active-blue) ![Visibility](https://img.shields.io/badge/repo-public-lightgrey) ![Next.js 15](https://img.shields.io/badge/-Next.js%2015-informational) ![React 18](https://img.shields.io/badge/-React%2018-informational) ![Sanity v3](https://img.shields.io/badge/-Sanity%20v3-informational) ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-informational) ![Vercel](https://img.shields.io/badge/-Vercel-informational)
 
-## Features
+**6pistons-Media** is the original codebase for [6Pistons Media](https://www.6pistons.com), an independent automotive
+publication ("Brand Led by Enthusiasts"), created by Yash in December 2024 and maintained with Hirav Kadikar. It is a
+Next.js 15 App Router site that reads articles, authors and categories from the **Sanity** headless CMS and renders fast,
+SEO-rich review pages. The same deployment also hosts **Sanity Studio**, the editors' writing tool, at `/studio` and on
+the `cms.6pistons.com` subdomain.
 
-### Content Management
+Beyond a normal blog, the site is engineered for discoverability: per-article Schema.org structured data (Article,
+Review with a 1–10 score, FAQPage, VideoObject, BreadcrumbList), a dynamic XML sitemap, an RSS 2.0 feed, an `llms.txt`
+guide for AI assistants, explicit crawler rules for search and AI bots, and instant re-indexing through IndexNow
+whenever an editor publishes.
 
-- Sanity CMS integration for content management
-- Rich text editing with image support
-- Category-based content organization
-- Author profiles and attribution
+**Live:** https://www.6pistons.com  (editors: https://cms.6pistons.com)
 
-### User Experience
+## Table of contents
 
-- Responsive design optimized for all devices
-- Fast, smooth animations using Framer Motion
-- Infinite scroll for seamless content discovery
-- Previous/next post navigation
-- Real-time search with filtering capabilities
-- Dark mode optimized interface
+1. [At a glance](#at-a-glance)
+2. [Key features](#key-features)
+3. [Tech stack](#tech-stack)
+4. [Architecture in one picture](#architecture-in-one-picture)
+5. [Repository structure](#repository-structure)
+6. [Getting started](#getting-started)
+7. [Configuration](#configuration)
+8. [Available scripts](#available-scripts)
+9. [Testing](#testing)
+10. [Deployment](#deployment)
+11. [Documentation](#documentation)
+12. [Project status](#project-status)
+13. [Contributing](#contributing)
+14. [Security](#security)
+15. [Licence](#licence)
+16. [Contacts](#contacts)
 
-### Engagement
+## At a glance
 
-- Firebase-powered comment system
-- Like functionality for posts
-- Author replies to comments
-- User authentication (email/password and Google)
-- Anti-spam and bot prevention with reCAPTCHA
+|  |  |
+|---|---|
+| What it is | The public website and editorial CMS for 6Pistons Media, an independent car, motorcycle and aviation review publication. |
+| Who it is for | Readers looking for vehicle reviews; the 6Pistons editorial team who publish them; search engines and AI assistants that index them. |
+| Status | Active — upstream source of the production site |
+| Primary language | TypeScript |
+| Hosting | Vercel project `6pistons-website` (deployed by GitHub Actions on push to master/main); Cloudflare DNS; Sanity Content Lake |
+| Repository | Public — `yashd-dev/6pistons-Media` |
+| Default branch | `master` |
+| Commits / first / latest | 41 commits · 2024-12-03 → 2026-09-08 |
+| Contributors | Yash (27), Hirav K (12), hiravk (2) |
+| Upstream | Original repository by Yash (yashd-dev). A private continuation with later fixes lives at HiravK/6pm. |
 
-### SEO & Performance
+## Key features
 
-- Dynamic sitemap generation
-- Webhook-based content revalidation
-- Optimized metadata for social sharing
-- Structured data for improved search engine visibility
-- Performance-optimized image loading
+- **Review pages** — Hero image, verdict box (score out of 10, pros, cons), rich body, YouTube review embed, FAQs, reading time, author byline, related and previous/next articles
+- **Embedded CMS** — Sanity Studio at /studio and cms.6pistons.com so editors publish without developers
+- **Instant publishing** — Signed Sanity webhook revalidates pages and pings IndexNow within seconds of Publish
+- **Search and browsing** — Keyword search across titles, descriptions and body text; category filters; pagination and infinite scroll
+- **SEO and AI-search optimisation** — JSON-LD (Article, Review, FAQPage, VideoObject, BreadcrumbList, CollectionPage, ProfilePage), sitemap.xml, feed.xml, llms.txt, AI-crawler-friendly robots.txt
+- **Trust pages** — About, Editorial Guidelines, Contact (press, pitch, advertising channels), Privacy and Terms
+- **Responsive dark design** — Magazine layout tuned for phones, tablets, laptops and 4K displays
+- **Analytics** — Umami (cookieless) and Ahrefs Web Analytics
 
-## Technology Stack
+## Tech stack
 
-### Frontend
+| Layer | Technology | Why it is used |
+|---|---|---|
+| Framework | Next.js 15.0.7 (App Router, Turbopack dev) | SSR/ISR pages, route handlers, server actions |
+| UI | React 18.3 + Tailwind CSS 3.4 + @tailwindcss/typography | Styling and article typography |
+| Motion | Framer Motion 11, Lenis | Animations and smooth scrolling |
+| CMS | Sanity v3 + next-sanity 9 (Studio, Vision) | Headless content + embedded editor |
+| Rich text | @portabletext/react | Render Sanity block content |
+| Icons | lucide-react | UI icons |
+| Language | TypeScript 5 | Type safety |
+| Hosting / CI | Vercel + GitHub Actions (pnpm, Vercel CLI) | Build and production deploys |
+| Analytics | Umami Cloud, Ahrefs Web Analytics | Privacy-friendly traffic stats |
 
-- Next.js 14 (App Router)
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion for animations
-- shadcn/ui component library
+## Architecture in one picture
 
-### Backend & Services
+```mermaid
+flowchart TB
+  subgraph Vercel["Vercel — Next.js 15 app"]
+    MW[middleware.ts<br/>cms subdomain rewrite]
+    PAGES[App Router pages<br/>home, article, category, author, static pages]
+    ACT[Server actions<br/>fetchPosts, searchPosts, fetchAdjacentPosts]
+    API[Route handlers<br/>/api/sanity/webhook, /feed.xml, /sitemap.xml]
+    STUDIO[Sanity Studio<br/>/studio]
+  end
+  SAN[(Sanity Content Lake<br/>project 2tb1r00m / production)]
+  CDN[Sanity image + API CDN]
+  MW --> PAGES
+  MW --> STUDIO
+  PAGES --> ACT --> CDN --> SAN
+  API --> CDN
+  STUDIO --> SAN
+  SAN -- webhook --> API
+```
 
-- Sanity CMS for content management
-- Firebase (Authentication, Firestore) for user management and comments
-- Next.js API routes and Server Actions
-- Vercel for hosting and serverless functions
+Full detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-### Performance & SEO
+## Repository structure
 
-- Next.js Image optimization
-- Dynamic metadata generation
-- Incremental Static Regeneration (ISR)
-- Automatic sitemap generation
+```text
+6pm/
+├── .github/workflows/main.yml   # Vercel production deploy
+├── public/                      # robots.txt, llms.txt, IndexNow key, logos, OG image
+├── sanity.config.ts             # Studio configuration
+├── sanity.cli.ts                # Sanity CLI (studioHost: sixpistons)
+├── next.config.ts               # images, redirects, security headers
+└── src/
+    ├── middleware.ts            # cms subdomain routing
+    ├── lib/slugs.ts             # slug + YouTube helpers
+    ├── sanity/                  # env, client, image, live, queries, schemaTypes, structure
+    └── app/
+        ├── page.tsx             # home (paginated list)
+        ├── article/[slug]/      # review pages
+        ├── category/[category]/ # category listings
+        ├── author/[slug]/       # author profiles
+        ├── actions/             # server actions (GROQ)
+        ├── api/sanity/webhook/  # revalidate + IndexNow
+        ├── feed.xml/ sitemap.ts # discovery feeds
+        ├── studio/[[...tool]]/  # embedded Sanity Studio
+        ├── components/          # navbar, footer, search, etc.
+        └── about|contact|editorial-guidelines|privacy|terms/
+```
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18.x or higher
-- npm or yarn
-- Firebase account
-- Sanity account
-- Vercel account (for deployment)
+- Node.js 18+ (CI uses 18; 20 LTS recommended)
+- npm or pnpm
+- Access to Sanity project `2tb1r00m` (for Studio editing)
 
-### Installation
+### Install and run locally
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yashd-dev/6pistons-Media.git
-   cd 6pistons
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-
-   # or
-
-   yarn install
-   ```
-
-3. Set up environment variables:
-   Create a `.env.local` file in the root directory with the following variables:
-
-   ```
-
-   # Sanity Configuration
-
-   NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
-   NEXT_PUBLIC_SANITY_DATASET=production
-   NEXT_PUBLIC_SANITY_API_VERSION=2024-12-04
-   SANITY_WEBHOOK_SECRET=your_webhook_secret
-
-   # Firebase Configuration
-
-   NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-   NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
-
-   # reCAPTCHA Configuration
-
-   NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-   ```
-
-4. Run the development server:
-
-   ```bash
-   npm run dev
-
-   # or
-
-   yarn dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
-
-## Firebase Setup
-
-1. Create a new Firebase project at [https://console.firebase.google.com/](https://console.firebase.google.com/)
-2. Enable Authentication with Email/Password and Google providers
-3. Create a Firestore database
-4. Set up the following collections:
-   - `comments`
-   - `commentLikes`
-   - `commentReports`
-   - `postLikes`
-5. Set up security rules for your Firestore database:
-
-```
-rules_version = '2';
-service cloud.firestore {
-match /databases/{database}/documents {
-// Comments
-match /comments/{commentId} {
-allow read;
-allow create: if request.auth != null;
-allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
-}
-
-    // Comment likes
-    match /commentLikes/{likeId} {
-      allow read;
-      allow create, delete: if request.auth != null;
-    }
-
-    // Comment reports
-    match /commentReports/{reportId} {
-      allow create: if request.auth != null;
-      allow read, update, delete: if false; // Admin only via Firebase console
-    }
-
-    // Post likes
-    match /postLikes/{likeId} {
-      allow read;
-      allow create, delete: if request.auth != null;
-    }
-
-}
-}
+```bash
+git clone https://github.com/HiravK/6pm.git
+cd 6pm
+cp .env.example .env.local      # fill in tokens/secrets if you need the webhook
+npm install
+npm run dev                     # http://localhost:3000  (Studio: /studio)
 ```
 
-## Sanity CMS Setup
+## Configuration
 
-1. Create a new Sanity project at [https://www.sanity.io/](https://www.sanity.io/)
-2. Set up the following schemas:
-   - Post
-   - Author
-   - Category
-3. Configure the webhook in Sanity to trigger the revalidation endpoint:
-   - URL: `https://yourdomain.com/api/sanity/webhook`
-   - HTTP method: POST
-   - Secret: Use the same value as your `SANITY_WEBHOOK_SECRET` environment variable
+Copy the example file and fill in real values. **Never commit real secrets.**
 
-## Project Structure
+| Variable | Required | Purpose | Example / default |
+|---|---|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | No (defaults to 2tb1r00m) | Sanity project ID | `2tb1r00m` |
+| `NEXT_PUBLIC_SANITY_DATASET` | No (defaults to production) | Sanity dataset | `production` |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | No | GROQ API version date | `2024-12-04` |
+| `SANITY_STUDIO_BASE_PATH` | No | Studio base path during server render | `/studio` |
+| `SANITY_API_READ_TOKEN` | No | Token for draft/live reads (not used by public pages today) |  |
+| `SANITY_API_WRITE_TOKEN` | No | Reserved for scripts that write content |  |
+| `SANITY_WEBHOOK_SECRET` | Yes (production) | Secret used to verify Sanity webhook signatures |  |
+| `NEXT_PUBLIC_SANITY_HOOK_SECRET` | No | Legacy fallback for the webhook secret — do not use (NEXT_PUBLIC_ values are exposed to browsers) |  |
+| `NEXT_PUBLIC_SITE_URL` | No | Site base URL | `http://localhost:3000` |
+| `NEXT_PUBLIC_FACEBOOK_APP_ID` | No | Adds fb:app_id meta tag when set |  |
 
-```
-6pistons/
-├── app/ # Next.js App Router
-│ ├── actions/ # Server Actions
-│ ├── api/ # API Routes
-│ ├── article/ # Article pages
-│ ├── author/ # Author pages
-│ ├── components/ # Client components
-│ ├── about/ # About page
-│ ├── globals.css # Global styles
-│ ├── layout.tsx # Root layout
-│ └── page.tsx # Home page
-├── components/ # Shared components
-│ ├── auth/ # Authentication components
-│ ├── comments/ # Comment system components
-│ └── ui/ # UI components (shadcn)
-├── contexts/ # React contexts
-├── lib/ # Utility functions
-│ ├── firebase/ # Firebase configuration and services
-│ └── utils.ts # General utilities
-├── public/ # Static assets
-├── sanity/ # Sanity configuration
-│ ├── lib/ # Sanity client utilities
-│ └── schemas/ # Content schemas
-├── styles/ # Additional styles
-├── next.config.mjs # Next.js configuration
-├── tailwind.config.ts # Tailwind CSS configuration
-└── tsconfig.json # TypeScript configuration
-```
+## Available scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start dev server with Turbopack on :3000 |
+| `npm run build` | Production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | ESLint (next/core-web-vitals) |
+
+## Testing
+
+No automated test suite exists yet. Quality is checked by `npm run lint`, a successful `next build`, and the manual smoke tests below. See [docs/PROJECT.md](docs/PROJECT.md#quality-and-testing).
 
 ## Deployment
 
-### Vercel Deployment
+Every push to `main` (or `master`) runs the GitHub Actions workflow, which builds with the Vercel CLI and deploys to production. It can also be triggered manually (workflow_dispatch). Step-by-step: [docs/RUNBOOK.md](docs/RUNBOOK.md).
 
-1. Push your code to a GitHub repository
-2. Create a new project on Vercel
-3. Connect your GitHub repository
-4. Configure the environment variables
-5. Deploy
+## Documentation
 
-### Environment Variables on Vercel
+Every document below is part of the project's controlled documentation set.
 
-Make sure to add all the environment variables listed in the Installation section to your Vercel project.
+| Document | Audience | What it answers |
+|---|---|---|
+| [README](README.md) | Everyone | What is it, how do I run it, where is everything? |
+| [Project Overview (in depth)](docs/PROJECT.md) | Everyone | Why it exists, every feature explained, timeline, quality, security, risks, glossary |
+| [Product Requirements (PRD)](docs/PRD.md) | Product, business, engineering | What problem, for whom, what must it do, how is success measured? |
+| [Architecture](docs/ARCHITECTURE.md) | Engineers, architects | How is it built, how does data flow, where does it run, why? |
+| [Runbook](docs/RUNBOOK.md) | Engineers, operators | How do I set it up, configure, deploy, roll back and troubleshoot it? |
+| [Session Handover](docs/SESSION_HANDOVER.md) | Next owner / next session | Where exactly did work stop and what is next? |
 
-## Performance Optimization
+## Project status
 
-- The application uses Next.js Image component for optimized image loading
-- Incremental Static Regeneration (ISR) for fast page loads with fresh content
-- Client-side caching strategies for improved performance
-- Code splitting and lazy loading for reduced bundle size
+This is the original, public repository for the 6Pistons Media website (default branch `master`). It contains the full
+September 2026 technical-SEO / AI-GEO / responsive overhaul and the restored Sanity Studio (commits up to 2026-09-08).
+A private continuation, **HiravK/6pm**, carries ten further fixes made on 2026-09-08 → 2026-09-24 (webhook secret
+fallback, Studio dynamic rendering, CMS chrome hiding, cms-root redirect, social-bot rules + fb:app_id, image
+optimisation disabled to stop Vercel 402 errors, mobile background fix, legacy sitemap redirects, breadcrumb fix).
+Decide which repository is the single source of truth and port the missing commits so the two do not drift.
+`agent.md` in the repository root is a detailed infrastructure handbook (Cloudflare, Vercel, Sanity, GTM) and remains valid.
 
-## SEO Optimization
-
-- Dynamic metadata generation for each page
-- Structured data for rich search results
-- Automatic sitemap generation
-- Social media meta tags for improved sharing
+Latest hand-off notes: [docs/SESSION_HANDOVER.md](docs/SESSION_HANDOVER.md).
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Open a pull request
+Branch from the default branch (`feat/…`, `fix/…`), use Conventional Commit messages, open a pull request, and update the docs in the same PR.
 
-## License
+## Security
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Please do not open public issues for vulnerabilities; contact the maintainer privately. Security design is covered in [docs/PROJECT.md](docs/PROJECT.md#security-and-privacy).
 
-## Acknowledgments
+## Licence
 
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [Sanity](https://www.sanity.io/)
-- [Firebase](https://firebase.google.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [shadcn/ui](https://ui.shadcn.com/)
+No licence file is present, so all rights are reserved by the owner by default. Add a `LICENSE` file before accepting outside contributions or reuse.
+
+## Contacts
+
+| Role | Name | Contact |
+|---|---|---|
+| Repository owner | Yash | [@yashd-dev](https://github.com/yashd-dev) |
+| Maintainer (2025–2026) | Hirav Kadikar | [@HiravK](https://github.com/HiravK) |
